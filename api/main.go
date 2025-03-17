@@ -20,5 +20,5 @@ func main() {
 
 	port := 8080
 	fmt.Printf("Server running at http://localhost:%d\n", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", port), nil))
 }
