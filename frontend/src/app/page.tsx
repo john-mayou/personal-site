@@ -1,7 +1,25 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { fetchApi } from "@/utils/api";
 
-export default function Home() {
+type HealthData = {
+  status: string
+}
+
+export default async function Home() {
+  let healthData: HealthData | null = null
+
+  try {
+    const response = await fetchApi("/api/health")
+    if (response.ok) {
+      healthData = await response.json()
+    } else {
+      throw new Error(`HTTP ${response.status} - ${response.statusText}`)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -13,6 +31,7 @@ export default function Home() {
           height={38}
           priority
         />
+        <pre>{JSON.stringify(healthData)}</pre>
         <ol>
           <li>
             Get started by editing <code>src/app/page.tsx</code>.
