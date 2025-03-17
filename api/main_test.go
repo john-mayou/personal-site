@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestHealthCheckHandler(t *testing.T) {
@@ -16,12 +18,6 @@ func TestHealthCheckHandler(t *testing.T) {
 	handler := http.HandlerFunc(healthCheckHandler)
 	handler.ServeHTTP(rr, req)
 
-	if rr.Code != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v", rr.Code, http.StatusOK)
-	}
-
-	expected := `{"status": "ok"}`
-	if rr.Body.String() != expected {
-		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
-	}
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Equal(t, `{"status": "ok"}`, rr.Body.String())
 }
