@@ -1,0 +1,20 @@
+.component {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: #f0f0f0;
+}
+
+.countTotal {
+    color: black;
+    text-align: center;
+}
+
+.counters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
