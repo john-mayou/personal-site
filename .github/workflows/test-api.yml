@@ -7,8 +7,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repo
         uses: actions/checkout@v4
 
       - name: Setup Go
@@ -18,16 +22,11 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          cd api
           go mod tidy
           go mod download
 
       - name: Build
-        run: |
-          cd api
-          go build -v ./...
+        run: go build -v ./...
 
       - name: Run Tests
-        run: |
-          cd api
-          go test -v ./... -cover
+        run: go test -v ./... -cover
