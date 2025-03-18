@@ -1,0 +1,28 @@
+name: Test NGINX Configs
+
+on:
+  pull_request:
+    branches: main
+
+jobs:
+  test-nginx:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ["dev", "ci", "prod"]
+
+    name: Validate ${{ matrix.config }} Config
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Install Gixy
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip
+          pip3 install gixy
+
+      - name: Run Gixy Security Audit
+        run: gixy ${{ github.workspace }}/nginx.${{ matrix.config }}.conf
