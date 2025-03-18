@@ -9,5 +9,5 @@ task :test do
 
   files = Dir.glob('./*_test.rb').join(' ')
 
-  system("#{env} ruby #{files} #{arg}")
+  exit 1 unless system("#{env} ruby #{files} #{arg}")
 end
