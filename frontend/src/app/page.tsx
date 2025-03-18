@@ -2,6 +2,8 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { fetchApi } from "@/utils/api";
 
+import CounterBox from "@/components/CounterBox"
+
 export const dynamic = 'force-dynamic'
 
 type HealthData = {
@@ -34,6 +36,7 @@ export default async function Home() {
           priority
         />
         <pre>{JSON.stringify(healthData)}</pre>
+        <CounterBox />
         <ol>
           <li>
             Get started by editing <code>src/app/page.tsx</code>.
