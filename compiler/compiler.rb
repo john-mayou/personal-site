@@ -1,5 +1,3 @@
-require 'json'
-
 module Compiler
   class << self
     def compile(md)
@@ -211,7 +209,7 @@ module Compiler
         elsif peek(:newl)
           consume(:newl)
         else
-          raise RuntimeError, "Unable to parse tokens:\n#{JSON.pretty_generate(@tks)}"
+          raise RuntimeError, "Unable to parse tokens:\n#{@tks}"
         end
       end
 
@@ -342,7 +340,7 @@ module Compiler
         link = consume(:link)
         NodeLink.new(text: link.attrs[:text], href: link.attrs[:href])
       else
-        raise "Unexpected next token: \n#{JSON.pretty_generate(@tks)}"
+        raise "Unexpected next token: \n#{@tks}"
       end
     end
 
