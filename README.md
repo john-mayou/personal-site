@@ -1,4 +1,4 @@
-# Resume Site
+# Personal Site
 
 ## Goals
 

@@ -1,0 +1,138 @@
+$editor-border-size: 1px;
+$editor-border-color: grey;
+
+$editor-file-name-font-size: 13px;
+$editor-file-hover-color: rgba($grey-900, 0.5);
+$editor-file-focus-color: rgba($grey-900, 0.8);
+
+$editor-tab-hover-color: rgba($grey-900, 0.5);
+$editor-tab-focus-color: rgba($grey-900, 0.8);
+$editor-tab-close-hover-color: rgba($grey-700, 0.7);
+$editor-tab-close-focus-color: rgba($grey-700, 1);
+
+$editor-top-bottom-padding: 40px;
+$editor-side-padding: 60px;
+
+$vscode-active-tab-color: #3b75cf;
+$vscode-active-file-color: #37373d;
+
+$transition-background-fast:
+  background-color 0.15s ease,
+  opacity 0.15s ease;
+
+.editor {
+  height: calc(100vh - $navbar-height - var(--main-padding-top) - var(--main-padding-bottom));
+  display: flex;
+  border: $editor-border-size solid $editor-border-color;
+
+  .mainContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .panesContainer {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+  }
+}
+
+.sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: $editor-border-size solid $editor-border-color;
+
+  .category {
+    font-weight: 700;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    font-size: $editor-file-name-font-size;
+    cursor: pointer;
+
+    transition: $transition-background-fast;
+    &:hover {
+      background: $editor-tab-hover-color;
+    }
+    &:active {
+      background: $editor-tab-focus-color;
+    }
+
+    &.active {
+      background: $vscode-active-file-color;
+    }
+  }
+}
+
+.toolbar {
+  height: 40px;
+  display: flex;
+  border-bottom: $editor-border-size solid $editor-border-color;
+
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 16px; // less on the right because of the close icon
+    font-size: $editor-file-name-font-size;
+    border-top: 1px solid transparent;
+    border-right: $editor-border-size solid $editor-border-color;
+    cursor: pointer;
+
+    transition: $transition-background-fast;
+    &:hover {
+      background: $editor-tab-hover-color;
+    }
+    &:active {
+      background: $editor-tab-focus-color;
+    }
+
+    &.active {
+      border-top: 1px solid $vscode-active-tab-color;
+    }
+
+    .closeIcon {
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 2px;
+      cursor: pointer;
+
+      transition:
+        background-color 0.15s ease,
+        opacity 0.15s ease;
+      &:hover {
+        background: $editor-tab-close-hover-color;
+      }
+      &:active {
+        background: $editor-tab-close-focus-color;
+      }
+
+      &.inactive {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+.editorPane {
+  flex: 0 0 50%;
+  width: 0px;
+
+  .codeMirror {
+    height: 100%;
+  }
+}
+
+.previewPane {
+  flex: 0 0 50%;
+  width: 0px;
+  overflow: auto;
+  border-left: $editor-border-size solid $editor-border-color;
+}

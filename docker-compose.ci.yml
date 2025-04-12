@@ -1,7 +1,8 @@
 services:
   api:
     build:
-      context: api
+      context: .
+      dockerfile: api/Dockerfile
     ports:
       - "8080:8080"
 
