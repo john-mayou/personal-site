@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -100,6 +102,13 @@ func main() {
 	http.Handle("/api/metrics", promhttp.Handler())
 	http.HandleFunc("/api/metrics/track", metricsHandler.ServeHTTP)
 	http.HandleFunc("/api/health", healthHandler)
+
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Failure to get current working directory: %v", err.Error())
+	}
+	compilerPath := filepath.Join(cwd, "../compiler")
+	http.Handle("/api/ruby/", http.StripPrefix("/api/ruby/", http.FileServer(http.Dir(compilerPath))))
 
 	port := 8080
 	fmt.Printf("Server running at http://localhost:%d\n", port)
