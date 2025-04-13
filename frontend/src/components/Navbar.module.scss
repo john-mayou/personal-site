@@ -23,12 +23,19 @@
   }
   .right {
     display: flex;
-    gap: 24px;
+    gap: 10px;
 
     .socialLink {
-      font-size: 20px;
+      font-size: 22px;
       display: flex;
       align-items: center;
+      border-radius: 10px;
+      padding: 8px;
+
+      transition: background-color $transition-fast;
+      &:hover {
+        background: rgba($grey-600, 0.2);
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { SiLinkedin, SiGithub, SiLeetcode } from 'react-icons/si'
+import { IconType } from 'react-icons'
 import styles from './Navbar.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -20,16 +21,18 @@ export default function Navbar() {
         </Link>
       </div>
       <div className={styles.right}>
-        <Link href="https://www.linkedin.com/in/johnmayou/" className={styles.socialLink}>
-          <SiLinkedin />
-        </Link>
-        <Link href="https://github.com/john-mayou" className={styles.socialLink}>
-          <SiGithub />
-        </Link>
-        <Link href="https://leetcode.com/u/johnmayou/" className={styles.socialLink}>
-          <SiLeetcode />
-        </Link>
+        <SocialLink href={'https://www.linkedin.com/in/johnmayou/'} icon={SiLinkedin} />
+        <SocialLink href={'https://github.com/john-mayou'} icon={SiGithub} />
+        <SocialLink href={'https://leetcode.com/u/johnmayou/'} icon={SiLeetcode} />
       </div>
     </nav>
+  )
+}
+
+function SocialLink({ href, icon: Icon }: { href: string; icon: IconType }) {
+  return (
+    <Link href={href} className={styles.socialLink}>
+      <Icon />
+    </Link>
   )
 }
