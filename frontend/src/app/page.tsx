@@ -1,4 +1,5 @@
 import Health from '@/components/Health'
+import Metrics from '@/components/Metrics'
 import Navbar from '@/components/Navbar'
 import { EditorWrapper } from '@/components/Editor'
 import { loadContentFiles } from '@/utils/content'
@@ -9,6 +10,7 @@ export default function Home() {
 
   return (
     <div>
+      <Metrics />
       <Health />
       <Navbar />
       <main className={styles.main}>

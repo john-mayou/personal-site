@@ -26,12 +26,12 @@ func TestMetricsHandler(t *testing.T) {
 				assert.Equal(t, 1.0, testutil.ToFloat64(h.PageViewCounter))
 			},
 		},
-		"file_click_total increments with file label": {
+		"file_click_total increments with category label": {
 			body: MetricsTrackBody{
 				Name:  string(FileClickTotal),
 				Count: 1,
 				Labels: map[string]string{
-					"file": "resume.pdf",
+					"category": "resume.pdf",
 				},
 			},
 			assert: func(t *testing.T, h *MetricsHandler) {

@@ -9,6 +9,7 @@ import {
   File as MarkdownFile,
   Category as MarkdownCategory,
 } from '@/components/editorStore'
+import { trackMetric } from '@/utils/metrics'
 import titleize from '@/utils/titleize'
 import Compiler from '@/utils/compiler'
 import styles from './Editor.module.scss'
@@ -90,7 +91,10 @@ function Sidebar() {
             <div
               key={file.id}
               className={`${styles.item} ${file.id == activeFileId ? styles.active : ''}`}
-              onClick={() => setActiveFile(file.id)}
+              onClick={() => {
+                setActiveFile(file.id)
+                trackMetric({ name: 'file_click_total', count: 1, labels: { category } })
+              }}
             >
               <PiMarkdownLogoFill />
               {file.title}

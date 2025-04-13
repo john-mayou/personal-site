@@ -18,7 +18,7 @@ export default function Health() {
           throw new Error(`HTTP ${response.status} - ${response.statusText}`)
         }
       } catch (e) {
-        console.error(e)
+        console.error('Error fetching server health status', e)
       }
     })()
   }, [])
