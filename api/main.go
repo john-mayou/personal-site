@@ -36,7 +36,7 @@ func NewMetricsHandler() *MetricsHandler {
 		FileClickCounter: promauto.NewCounterVec(prometheus.CounterOpts{
 			Name: string(FileClickTotal),
 			Help: "Total number of file clicks",
-		}, []string{"file"}),
+		}, []string{"category"}),
 		SocialClickCounter: promauto.NewCounterVec(prometheus.CounterOpts{
 			Name: string(SocialClickTotal),
 			Help: "Total number of social link clicks",
@@ -70,12 +70,12 @@ func (h *MetricsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case string(PageViewTotal):
 		h.PageViewCounter.Add(float64(body.Count))
 	case string(FileClickTotal):
-		file, ok := body.Labels["file"]
+		category, ok := body.Labels["category"]
 		if !ok {
-			http.Error(w, "Missing 'file' label for file_click_total metric", http.StatusBadRequest)
+			http.Error(w, "Missing 'category' label for file_click_total metric", http.StatusBadRequest)
 			return
 		}
-		h.FileClickCounter.WithLabelValues(file).Add(float64(body.Count))
+		h.FileClickCounter.WithLabelValues(category).Add(float64(body.Count))
 	case string(SocialClickTotal):
 		platform, ok := body.Labels["platform"]
 		if !ok {
@@ -99,8 +99,8 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	metricsHandler := NewMetricsHandler()
-	http.Handle("/api/metrics", promhttp.Handler())
 	http.HandleFunc("/api/metrics/track", metricsHandler.ServeHTTP)
+	http.Handle("/api/metrics", promhttp.Handler())
 	http.HandleFunc("/api/health", healthHandler)
 
 	cwd, err := os.Getwd()
