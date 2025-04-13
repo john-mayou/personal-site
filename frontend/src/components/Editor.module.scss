@@ -3,22 +3,15 @@ $editor-border-color: grey;
 
 $editor-file-name-font-size: 13px;
 $editor-file-hover-color: rgba($grey-900, 0.5);
-$editor-file-focus-color: rgba($grey-900, 0.8);
 
 $editor-tab-hover-color: rgba($grey-900, 0.5);
-$editor-tab-focus-color: rgba($grey-900, 0.8);
 $editor-tab-close-hover-color: rgba($grey-700, 0.7);
-$editor-tab-close-focus-color: rgba($grey-700, 1);
 
 $editor-top-bottom-padding: 40px;
 $editor-side-padding: 60px;
 
 $vscode-active-tab-color: #3b75cf;
 $vscode-active-file-color: #37373d;
-
-$transition-background-fast:
-  background-color 0.15s ease,
-  opacity 0.15s ease;
 
 .editor {
   height: calc(100vh - $navbar-height - var(--main-padding-top) - var(--main-padding-bottom));
@@ -56,12 +49,9 @@ $transition-background-fast:
     font-size: $editor-file-name-font-size;
     cursor: pointer;
 
-    transition: $transition-background-fast;
+    transition: background-color $transition-fast;
     &:hover {
       background: $editor-tab-hover-color;
-    }
-    &:active {
-      background: $editor-tab-focus-color;
     }
 
     &.active {
@@ -85,12 +75,9 @@ $transition-background-fast:
     border-right: $editor-border-size solid $editor-border-color;
     cursor: pointer;
 
-    transition: $transition-background-fast;
+    transition: background-color $transition-fast;
     &:hover {
       background: $editor-tab-hover-color;
-    }
-    &:active {
-      background: $editor-tab-focus-color;
     }
 
     &.active {
@@ -103,14 +90,9 @@ $transition-background-fast:
       padding: 2px;
       cursor: pointer;
 
-      transition:
-        background-color 0.15s ease,
-        opacity 0.15s ease;
+      transition: background-color $transition-fast;
       &:hover {
         background: $editor-tab-close-hover-color;
-      }
-      &:active {
-        background: $editor-tab-close-focus-color;
       }
 
       &.inactive {
