@@ -2,10 +2,6 @@ $editor-border-size: 1px;
 $editor-border-color: grey;
 
 $editor-file-name-font-size: 13px;
-$editor-file-hover-color: rgba($grey-900, 0.5);
-
-$editor-tab-hover-color: rgba($grey-900, 0.5);
-$editor-tab-close-hover-color: rgba($grey-700, 0.7);
 
 $editor-top-bottom-padding: 40px;
 $editor-side-padding: 60px;
@@ -51,7 +47,7 @@ $vscode-active-file-color: #37373d;
 
     transition: background-color $transition-fast;
     &:hover {
-      background: $editor-tab-hover-color;
+      background: rgba($grey-600, 0.2);
     }
 
     &.active {
@@ -77,7 +73,7 @@ $vscode-active-file-color: #37373d;
 
     transition: background-color $transition-fast;
     &:hover {
-      background: $editor-tab-hover-color;
+      background: rgba($grey-600, 0.2);
     }
 
     &.active {
@@ -92,7 +88,7 @@ $vscode-active-file-color: #37373d;
 
       transition: background-color $transition-fast;
       &:hover {
-        background: $editor-tab-close-hover-color;
+        background: rgba($grey-600, 0.2);
       }
 
       &.inactive {
