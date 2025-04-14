@@ -8,12 +8,27 @@ body {
 }
 
 body {
+  position: relative;
+  overflow: hidden;
+
   color: $font-color-muted;
   background: $background;
   font-family: $font-family-text;
   line-height: $line-height;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  z-index: -1;
 }
 
 * {
