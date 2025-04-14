@@ -1,40 +1,89 @@
 $editor-border-size: 1px;
 $editor-border-color: grey;
 
-$editor-file-name-font-size: 13px;
+$editor-font-size: 13px;
 
 $editor-top-bottom-padding: 40px;
 $editor-side-padding: 60px;
 
 $vscode-active-tab-color: #3b75cf;
-$vscode-active-file-color: #37373d;
+$vscode-active-file-color: #19385c;
+$vscode-active-file-border-color: #3b75cf;
+$vscode-markdown-file-color: #6598b8;
+$vscode-background-color: #181818;
 
 .editor {
   height: calc(100vh - $navbar-height - var(--main-padding-top) - var(--main-padding-bottom));
   display: flex;
+  flex-direction: column;
   border: $editor-border-size solid $editor-border-color;
+  border-radius: 10px;
+  background: $vscode-background-color;
 
   .mainContainer {
-    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
+    border-top: 1px solid $editor-border-color;
+    border-bottom: 1px solid $editor-border-color;
 
-    .panesContainer {
+    .toolbarAndPanesContainer {
       width: 100%;
-      height: 100%;
       display: flex;
+      flex-direction: column;
+
+      .panesContainer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+      }
+    }
+  }
+}
+
+.titleBar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 10px;
+
+  .circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &.close {
+      background: radial-gradient(circle at 30% 30%, #ff7b71, #ff605c);
+      box-shadow: 0 0 4px #ff605c88;
+    }
+    &.minimize {
+      background: radial-gradient(circle at 30% 30%, #ffe084, #ffbd44);
+      box-shadow: 0 0 4px #ffbd4488;
+    }
+    &.full {
+      background: radial-gradient(circle at 30% 30%, #70f3a0, #00ca4e);
+      box-shadow: 0 0 4px #00ca4e88;
     }
   }
 }
 
 .sidebar {
-  flex: 1;
+  width: 150px;
   display: flex;
   flex-direction: column;
   border-right: $editor-border-size solid $editor-border-color;
 
+  .categorySpacer {
+    height: 6px;
+  }
   .category {
-    font-weight: 700;
+    font-size: $editor-font-size;
+    padding: 4px 8px;
+  }
+  .categoryDivider {
+    margin: 0 8px;
+    border-bottom: 1px solid $editor-border-color;
   }
 
   .item {
@@ -42,15 +91,23 @@ $vscode-active-file-color: #37373d;
     align-items: center;
     gap: 6px;
     padding: 4px 8px;
-    font-size: $editor-file-name-font-size;
+    font-size: $editor-font-size;
     cursor: pointer;
+
+    .itemTitle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     transition: background-color $transition-fast;
     &:hover {
       background: rgba($grey-600, 0.2);
     }
 
+    border: 1px solid transparent;
     &.active {
+      border-color: $vscode-active-file-border-color;
       background: $vscode-active-file-color;
     }
   }
@@ -66,7 +123,7 @@ $vscode-active-file-color: #37373d;
     align-items: center;
     gap: 6px;
     padding: 4px 10px 4px 16px; // less on the right because of the close icon
-    font-size: $editor-file-name-font-size;
+    font-size: $editor-font-size;
     border-top: 1px solid transparent;
     border-right: $editor-border-size solid $editor-border-color;
     cursor: pointer;
@@ -113,4 +170,13 @@ $vscode-active-file-color: #37373d;
   width: 0px;
   overflow: auto;
   border-left: $editor-border-size solid $editor-border-color;
+}
+
+.footerBar {
+  height: 20px;
+}
+
+.markdownIcon {
+  flex-shrink: 0; // never shrink
+  color: $vscode-markdown-file-color;
 }
