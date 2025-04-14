@@ -1,0 +1,78 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init + Apply
+        run: |
+          cd terraform
+          terraform init
+          terraform apply -auto-approve
+
+      - name: Get Droplet IPs
+        run: |
+          cd terraform
+          echo "DO_STAGING_IP=$(terraform output -raw staging_ip)" >> $GITHUB_ENV
+          echo "DO_PROD_IP=$(terraform output -raw prod_ip)" >> $GITHUB_ENV
+
+      - name: Log in to DigitalOcean Registry
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_API_KEY }}
+
+      - name: Set Deploy Version
+        run: echo "$DEPLOY_VERSION=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
+      - name: Build and Push Docker Images
+        run: |
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/myproject/api:$VERSION -f api/Dockerfile .
+          docker push registry.digitalocean.com/myproject/api:$VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/myproject/frontend:$VERSION -f frontend/Dockerfile ./frontend
+          docker push registry.digitalocean.com/myproject/frontend:$VERSION
+
+      - name: Deploy to Staging
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.DO_STAGING_IP }}
+          username: root
+          key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          script: |
+            cd /app
+            git pull origin main
+            touch .env
+            echo "DEPLOY_ENV=staging" >> .env
+            echo "DEPLOY_VERSION=$DEPLOY_VERSION" >> .env
+            docker-compose -f docker-compose.deploy.yml pull
+            docker-compose -f docker-compose.deploy.yml up -d
+
+      - name: Staging Health Check
+        run: curl -sf https://staging.johnmayou.com/health
+
+      - name: Deploy to Prod
+        if: ${{ success() }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.DO_PROD_IP }}
+          username: root
+          key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          script: |
+            cd /app
+            touch .env
+            echo "DEPLOY_ENV=production" >> .env
+            echo "DEPLOY_VERSION=$DEPLOY_VERSION" >> .env
+            docker-compose -f docker-compose.deploy.yml pull
+            docker-compose -f docker-compose.deploy.yml up -d
