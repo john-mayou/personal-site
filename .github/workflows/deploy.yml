@@ -18,15 +18,14 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init + Apply
-        working-directory: terraform
-        env:
-          TF_VAR_do_api_key: ${{ secrets.DO_API_KEY }}
-          TF_VAR_do_ssh_public_key: ${{ secrets.DO_SSH_PUBLIC_KEY }}
-          TF_VAR_cloudflare_api_key: ${{ secrets.CF_API_KEY }}
-          TF_VAR_cloudflare_zone_id: ${{ secrets.CF_ZONE_ID }}
         run: |
+          cd terraform
           terraform init
-          terraform apply -auto-approve
+          terraform apply -auto-approve \
+            -var="do_api_keyn=${{ secrets.DO_API_KEY }}" \
+            -var="do_ssh_public_key=${{ secrets.DO_SSH_PUBLIC_KEY }}" \
+            -var="cloudflare_api_key=${{ secrets.CF_API_KEY }}" \
+            -var="cloudflare_zone_id=${{ secrets.CF_ZONE_ID }}"
 
       - name: Get Droplet IPs
         run: |
