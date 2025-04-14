@@ -126,6 +126,7 @@ $vscode-background-color: #181818;
     font-size: $editor-font-size;
     border-top: 1px solid transparent;
     border-right: $editor-border-size solid $editor-border-color;
+    white-space: nowrap;
     cursor: pointer;
 
     transition: background-color $transition-fast;
