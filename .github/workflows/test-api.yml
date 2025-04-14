@@ -1,4 +1,4 @@
-name: Test API
+name: Test Api
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   test:
+    name: Test Api
     runs-on: ubuntu-latest
     defaults:
       run:
