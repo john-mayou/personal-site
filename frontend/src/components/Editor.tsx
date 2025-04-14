@@ -36,14 +36,28 @@ export function EditorWrapper({ files }: { files: Record<number, MarkdownFile> }
 export function Editor() {
   return (
     <div data-testid="editor" className={styles.editor}>
-      <Sidebar />
+      <TitleBar />
       <div className={styles.mainContainer}>
-        <Toolbar />
-        <div className={styles.panesContainer}>
-          <EditorPane />
-          <PreviewPane />
+        <Sidebar />
+        <div className={styles.toolbarAndPanesContainer}>
+          <Toolbar />
+          <div className={styles.panesContainer}>
+            <EditorPane />
+            <PreviewPane />
+          </div>
         </div>
       </div>
+      <FooterBar />
+    </div>
+  )
+}
+
+function TitleBar() {
+  return (
+    <div data-testid="editor-title-bar" className={styles.titleBar}>
+      <div className={`${styles.circle} ${styles.close}`}></div>
+      <div className={`${styles.circle} ${styles.minimize}`}></div>
+      <div className={`${styles.circle} ${styles.full}`}></div>
     </div>
   )
 }
@@ -84,9 +98,11 @@ function Sidebar() {
 
   return (
     <div data-testid="editor-sidebar" className={styles.sidebar}>
-      {categoryOrder.map((category) => (
+      {categoryOrder.map((category, index) => (
         <div key={category}>
+          {index === 0 ? null : <div className={styles.categorySpacer}></div>}
           <div className={styles.category}>{titleize(category)}</div>
+          <div className={styles.categoryDivider}></div>
           {fileMap[category].map((file) => (
             <div
               key={file.id}
@@ -96,8 +112,8 @@ function Sidebar() {
                 trackMetric({ name: 'file_click_total', count: 1, labels: { category } })
               }}
             >
-              <PiMarkdownLogoFill />
-              {file.title}
+              <PiMarkdownLogoFill className={styles.markdownIcon} />
+              <div className={styles.itemTitle}>{file.title}</div>
             </div>
           ))}
         </div>
@@ -142,7 +158,7 @@ function Toolbar() {
             className={`${styles.tab} ${isActive ? styles.active : ''}`}
             onClick={() => setActiveFile(id)}
           >
-            <PiMarkdownLogoLight />
+            <PiMarkdownLogoLight className={styles.markdownIcon} />
             {file.title}
             <HiXMark
               data-testid={`close-${file.name}`}
@@ -204,4 +220,8 @@ function PreviewPane() {
       dangerouslySetInnerHTML={{ __html: compileMarkdown(activeContent) }}
     ></div>
   )
+}
+
+function FooterBar() {
+  return <div data-testid="editor-footer-bar" className={styles.footerBar}></div>
 }
