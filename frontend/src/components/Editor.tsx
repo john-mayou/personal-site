@@ -55,9 +55,12 @@ export function Editor() {
 function TitleBar() {
   return (
     <div data-testid="editor-title-bar" className={styles.titleBar}>
-      <div className={`${styles.circle} ${styles.close}`}></div>
-      <div className={`${styles.circle} ${styles.minimize}`}></div>
-      <div className={`${styles.circle} ${styles.full}`}></div>
+      <div className={styles.left}>
+        <div className={`${styles.circle} ${styles.close}`}></div>
+        <div className={`${styles.circle} ${styles.minimize}`}></div>
+        <div className={`${styles.circle} ${styles.full}`}></div>
+      </div>
+      <div className={styles.right}></div>
     </div>
   )
 }
