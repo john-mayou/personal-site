@@ -15,20 +15,21 @@ import Compiler from '@/utils/compiler'
 import styles from './Editor.module.scss'
 
 export function EditorWrapper({ files }: { files: Record<number, MarkdownFile> }) {
-  const { setFiles, setActiveFile, setMarkdownCompiler } = useEditorStore()
+  const { setFiles, setActiveFile, setPreviewShow, setMarkdownCompiler } = useEditorStore()
 
   useEffect(() => {
-    ;(async () => {
-      setFiles(files)
-      for (const id in files) {
-        if (files[id].title === 'Intro.md') {
-          setActiveFile(Number(id))
-          break
-        }
+    setFiles(files)
+    for (const id in files) {
+      if (files[id].title === 'Intro.md') {
+        setActiveFile(Number(id))
+        break
       }
+    }
+    ;(async () => {
       setMarkdownCompiler(await Compiler.create())
+      requestAnimationFrame(() => setPreviewShow(true))
     })()
-  }, [files, setFiles, setActiveFile, setMarkdownCompiler])
+  }, [files, setFiles, setActiveFile, setPreviewShow, setMarkdownCompiler])
 
   return <Editor />
 }
@@ -60,7 +61,7 @@ function TitleBar() {
         <div className={`${styles.circle} ${styles.minimize}`}></div>
         <div className={`${styles.circle} ${styles.full}`}></div>
       </div>
-      <div className={styles.right}></div>
+      <div></div>
     </div>
   )
 }
@@ -214,12 +215,12 @@ function EditorPane() {
 }
 
 function PreviewPane() {
-  const { activeContent, compileMarkdown } = useEditorStore()
+  const { activeContent, previewShow, compileMarkdown } = useEditorStore()
 
   return (
     <div
       data-testid="editor-preview-pane"
-      className={styles.previewPane}
+      className={`${styles.previewPane} ${previewShow ? styles.show : ''}`}
       dangerouslySetInnerHTML={{ __html: compileMarkdown(activeContent) }}
     ></div>
   )

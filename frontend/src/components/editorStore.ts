@@ -15,11 +15,13 @@ type EditorState = {
   files: Record<number, File>
   activeFileId: number | null
   activeContent: string
+  previewShow: boolean
 
   setFiles: (files: Record<number, File>) => void
   setActiveFile: (id: number | null) => void
   setActiveContent: (content: string) => void
   saveActiveFile: () => void
+  setPreviewShow: (open: boolean) => void
 
   compileMarkdown: (markdown: string) => string
   setMarkdownCompiler: (compiler: Compiler) => void
@@ -29,6 +31,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   files: {},
   activeFileId: null,
   activeContent: '',
+  previewShow: false,
 
   setFiles: (files) => {
     set({ files })
@@ -58,6 +61,10 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         },
       },
     })
+  },
+
+  setPreviewShow: (open) => {
+    set({ previewShow: open })
   },
 
   compileMarkdown: () => '',

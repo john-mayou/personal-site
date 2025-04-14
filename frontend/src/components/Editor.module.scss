@@ -73,9 +73,6 @@ $vscode-background-color: #181818;
       }
     }
   }
-
-  .right {
-  }
 }
 
 .sidebar {
@@ -174,6 +171,7 @@ $vscode-background-color: #181818;
 .editorPane {
   flex: 0 0 50%;
   width: 0px;
+  border-right: $editor-border-size solid $editor-border-color;
   @include no-scroll-bar();
 
   .codeMirror {
@@ -189,8 +187,19 @@ $vscode-background-color: #181818;
   flex: 0 0 50%;
   width: 0px;
   overflow: auto;
-  border-left: $editor-border-size solid $editor-border-color;
   @include no-scroll-bar();
+
+  opacity: 0;
+  transform: translateX(50px);
+  transition:
+    opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  &.show {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
 }
 
 .footerBar {
