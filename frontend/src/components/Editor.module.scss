@@ -162,6 +162,10 @@ $vscode-background-color: #181818;
 
   .codeMirror {
     height: 100%;
+
+    :global(.cm-focused) {
+      outline: none;
+    }
   }
 }
 
