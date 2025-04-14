@@ -165,6 +165,7 @@ $vscode-background-color: #181818;
 .editorPane {
   flex: 0 0 50%;
   width: 0px;
+  @include no-scroll-bar();
 
   .codeMirror {
     height: 100%;
@@ -180,6 +181,7 @@ $vscode-background-color: #181818;
   width: 0px;
   overflow: auto;
   border-left: $editor-border-size solid $editor-border-color;
+  @include no-scroll-bar();
 }
 
 .footerBar {
