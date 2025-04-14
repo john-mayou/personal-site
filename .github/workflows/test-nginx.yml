@@ -6,13 +6,18 @@ on:
 
 jobs:
   test-nginx:
+    name: Validate ${{ matrix.config.label }} Nginx Config
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        config: ["dev", "ci", "prod"]
-
-    name: Validate ${{ matrix.config }} Config
+        config:
+          - key: dev
+            label: Dev
+          - key: ci
+            label: CI
+          - key: deploy
+            label: Deploy
 
     steps:
       - name: Checkout Repo
@@ -25,4 +30,4 @@ jobs:
           pip3 install gixy
 
       - name: Run Gixy Security Audit
-        run: gixy ${{ github.workspace }}/nginx.${{ matrix.config }}.conf
+        run: gixy ${{ github.workspace }}/nginx.${{ matrix.config.key }}.conf
