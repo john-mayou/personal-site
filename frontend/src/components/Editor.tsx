@@ -83,7 +83,7 @@ function Sidebar() {
       }
     }
 
-    const pinnedOrder = ['Intro.md', 'Resume.md', 'Guide.md']
+    const pinnedOrder = ['Intro.md', 'Resume.md']
     const pinnedIndex: Record<string, number> = Object.fromEntries(
       pinnedOrder.map((name, i) => [name, i])
     )
