@@ -79,8 +79,9 @@ $vscode-background-color: #181818;
     height: 6px;
   }
   .category {
-    font-size: $editor-font-size;
-    padding: 4px 8px;
+    font-size: 15;
+    font-weight: 500;
+    padding: 8px 8px; // line up first divider with toolbar
   }
   .categoryDivider {
     margin: 0 8px;
