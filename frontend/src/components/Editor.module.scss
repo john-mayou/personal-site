@@ -23,6 +23,7 @@ $vscode-background-color: #181818;
   .mainContainer {
     height: 100%;
     display: flex;
+    overflow: hidden;
     border-top: 1px solid $editor-border-color;
     border-bottom: 1px solid $editor-border-color;
 
@@ -116,6 +117,8 @@ $vscode-background-color: #181818;
 .toolbar {
   height: 40px;
   display: flex;
+  overflow: auto;
+  @include no-scroll-bar();
   border-bottom: $editor-border-size solid $editor-border-color;
 
   .tab {
