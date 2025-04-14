@@ -9,14 +9,11 @@ export default function Health() {
     ;(async () => {
       try {
         const response = await fetchApi('/api/health')
-        if (response.ok) {
-          const json = await response.json()
-          const jsonStr = JSON.stringify(json)
-          console.debug(jsonStr)
-          setStatus(jsonStr)
-        } else {
-          throw new Error(`HTTP ${response.status} - ${response.statusText}`)
-        }
+        const json = await response.json()
+        if (!response.ok || json.status !== 'healthy') throw new Error('Unhealthy backend')
+        const jsonStr = JSON.stringify(json)
+        console.debug(jsonStr)
+        setStatus(jsonStr)
       } catch (e) {
         console.error('Error fetching server health status', e)
       }
