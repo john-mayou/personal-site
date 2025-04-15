@@ -56,7 +56,7 @@ jobs:
           docker push registry.digitalocean.com/personal-site-registry/frontend:$DEPLOY_VERSION
 
       - name: Deploy to Staging
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ env.DO_STAGING_IP }}
           username: root
@@ -75,7 +75,7 @@ jobs:
 
       - name: Deploy to Prod
         if: ${{ success() }}
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ env.DO_PROD_IP }}
           username: root
