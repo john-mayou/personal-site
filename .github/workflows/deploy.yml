@@ -1,6 +1,8 @@
 name: Deploy Application
 
 on:
+  pull_request:
+    branches: main
   push:
     branches:
       - main
@@ -45,10 +47,10 @@ jobs:
 
       - name: Build and Push Docker Images
         run: |
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/api:$VERSION -f api/Dockerfile .
-          docker push registry.digitalocean.com/personal-site/api:$VERSION
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/frontend:$VERSION -f frontend/Dockerfile ./frontend
-          docker push registry.digitalocean.com/personal-site/frontend:$VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/api:$DEPLOY_VERSION -f api/Dockerfile .
+          docker push registry.digitalocean.com/personal-site/api:$DEPLOY_VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/frontend:$DEPLOY_VERSION -f frontend/Dockerfile ./frontend
+          docker push registry.digitalocean.com/personal-site/frontend:$DEPLOY_VERSION
 
       - name: Deploy to Staging
         uses: appleboy/ssh-action@master
