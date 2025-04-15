@@ -1,12 +1,12 @@
 services:
   api:
-    image: registry.digitalocean.com/myproject/api:${DEPLOY_VERSION}
+    image: registry.digitalocean.com/personal-site-registry/api:${DEPLOY_VERSION}
     restart: always
     ports:
       - "8080:8080"
 
   frontend:
-    image: registry.digitalocean.com/myproject/frontend:${DEPLOY_VERSION}
+    image: registry.digitalocean.com/personal-site-registry/frontend:${DEPLOY_VERSION}
     restart: always
     environment:
       - NODE_ENV=${DEPLOY_ENV}

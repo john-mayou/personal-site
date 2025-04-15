@@ -57,10 +57,13 @@ jobs:
 
       - name: Deploy to Staging
         uses: appleboy/ssh-action@v1
+        env:
+          DEPLOY_VERSION: ${{ env.DEPLOY_VERSION }}
         with:
           host: ${{ env.DO_STAGING_IP }}
           username: root
           key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          envs: DEPLOY_VERSION
           script: |
             if [ -d "app" ]; then
               cd app
@@ -87,10 +90,13 @@ jobs:
       - name: Deploy to Prod
         if: ${{ success() }}
         uses: appleboy/ssh-action@v1
+        env:
+          DEPLOY_VERSION: ${{ env.DEPLOY_VERSION }}
         with:
           host: ${{ env.DO_PROD_IP }}
           username: root
           key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          envs: DEPLOY_VERSION
           script: |
             if [ -d "app" ]; then
               cd app
