@@ -78,8 +78,8 @@ jobs:
               curl -fsSL https://get.docker.com | sh
             fi
 
-            docker-compose -f docker-compose.deploy.yml pull
-            docker-compose -f docker-compose.deploy.yml up -d
+            docker compose -f docker-compose.deploy.yml pull
+            docker compose -f docker-compose.deploy.yml up -d
 
       - name: Staging Health Check
         run: curl -sf https://staging.johnmayou.com/health
@@ -108,5 +108,5 @@ jobs:
               curl -fsSL https://get.docker.com | sh
             fi
 
-            docker-compose -f docker-compose.deploy.yml pull
-            docker-compose -f docker-compose.deploy.yml up -d
+            docker compose -f docker-compose.deploy.yml pull
+            docker compose -f docker-compose.deploy.yml up -d
