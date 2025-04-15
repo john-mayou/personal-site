@@ -84,7 +84,7 @@ jobs:
 
             echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
-            docker compose -f docker-compose.deploy.yml up -d
+            docker compose -f docker-compose.deploy.yml up -d --force-recreate
 
       - name: Staging Health Check
         run: curl -sf https://staging.johnmayou.com/health
@@ -119,4 +119,4 @@ jobs:
 
             echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
-            docker compose -f docker-compose.deploy.yml up -d
+            docker compose -f docker-compose.deploy.yml up -d --force-recreate
