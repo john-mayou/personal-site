@@ -45,10 +45,10 @@ jobs:
 
       - name: Build and Push Docker Images
         run: |
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/myproject/api:$VERSION -f api/Dockerfile .
-          docker push registry.digitalocean.com/myproject/api:$VERSION
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/myproject/frontend:$VERSION -f frontend/Dockerfile ./frontend
-          docker push registry.digitalocean.com/myproject/frontend:$VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/api:$VERSION -f api/Dockerfile .
+          docker push registry.digitalocean.com/personal-site/api:$VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/frontend:$VERSION -f frontend/Dockerfile ./frontend
+          docker push registry.digitalocean.com/personal-site/frontend:$VERSION
 
       - name: Deploy to Staging
         uses: appleboy/ssh-action@master
