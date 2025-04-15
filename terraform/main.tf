@@ -49,7 +49,7 @@ resource "digitalocean_droplet" "staging" {
 
 resource "cloudflare_dns_record" "prod" {
   zone_id = var.cloudflare_zone_id
-  name    = "@"
+  name    = "johnmayou.com"
   type    = "A"
   content = digitalocean_droplet.prod.ipv4_address
   proxied = true
@@ -58,7 +58,7 @@ resource "cloudflare_dns_record" "prod" {
 
 resource "cloudflare_dns_record" "prod_www" {
   zone_id = var.cloudflare_zone_id
-  name    = "www"
+  name    = "www.johnmayou.com"
   type    = "CNAME"
   content = "johnmayou.com"
   proxied = true
@@ -67,7 +67,7 @@ resource "cloudflare_dns_record" "prod_www" {
 
 resource "cloudflare_dns_record" "staging" {
   zone_id = var.cloudflare_zone_id
-  name    = "staging"
+  name    = "staging.johnmayou.com"
   type    = "A"
   content = digitalocean_droplet.staging.ipv4_address
   proxied = true

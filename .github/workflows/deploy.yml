@@ -1,6 +1,8 @@
 name: Deploy Application
 
 on:
+  pull_request:
+    branches: main
   push:
     branches:
       - main
@@ -35,50 +37,86 @@ jobs:
           echo "DO_STAGING_IP=$(terraform output -raw staging_ip)" >> $GITHUB_ENV
           echo "DO_PROD_IP=$(terraform output -raw prod_ip)" >> $GITHUB_ENV
 
-      - name: Log in to DigitalOcean Registry
+      - name: Log in to DigitalOcean CLI
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DO_API_KEY }}
+
+      - name: Log in to DigitalOcean Container Registry
+        run: doctl registry login --access-token=${{ secrets.DO_API_KEY }}
 
       - name: Set Deploy Version
         run: echo "DEPLOY_VERSION=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
       - name: Build and Push Docker Images
         run: |
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/api:$VERSION -f api/Dockerfile .
-          docker push registry.digitalocean.com/personal-site/api:$VERSION
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/frontend:$VERSION -f frontend/Dockerfile ./frontend
-          docker push registry.digitalocean.com/personal-site/frontend:$VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site-registry/api:$DEPLOY_VERSION -f api/Dockerfile .
+          docker push registry.digitalocean.com/personal-site-registry/api:$DEPLOY_VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site-registry/frontend:$DEPLOY_VERSION -f frontend/Dockerfile ./frontend
+          docker push registry.digitalocean.com/personal-site-registry/frontend:$DEPLOY_VERSION
 
       - name: Deploy to Staging
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
+        env:
+          DEPLOY_VERSION: ${{ env.DEPLOY_VERSION }}
+          DO_API_KEY: ${{ secrets.DO_API_KEY }}
         with:
           host: ${{ env.DO_STAGING_IP }}
           username: root
           key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          envs: DEPLOY_VERSION,DO_API_KEY
           script: |
-            cd /app
-            git pull origin main
+            if [ -d "app" ]; then
+              cd app
+              git pull origin main
+            else
+              git clone https://github.com/john-mayou/personal-site.git app
+              cd app
+            fi
+
             touch .env
             echo "DEPLOY_ENV=staging" >> .env
             echo "DEPLOY_VERSION=$DEPLOY_VERSION" >> .env
-            docker-compose -f docker-compose.deploy.yml pull
-            docker-compose -f docker-compose.deploy.yml up -d
+
+            if ! command -v docker &> /dev/null; then
+              curl -fsSL https://get.docker.com | sh
+            fi
+
+            echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
+            docker compose -f docker-compose.deploy.yml pull
+            docker compose -f docker-compose.deploy.yml up -d
 
       - name: Staging Health Check
         run: curl -sf https://staging.johnmayou.com/health
 
       - name: Deploy to Prod
         if: ${{ success() }}
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
+        env:
+          DEPLOY_VERSION: ${{ env.DEPLOY_VERSION }}
+          DO_API_KEY: ${{ secrets.DO_API_KEY }}
         with:
           host: ${{ env.DO_PROD_IP }}
           username: root
           key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          envs: DEPLOY_VERSION,DO_API_KEY
           script: |
-            cd /app
+            if [ -d "app" ]; then
+              cd app
+              git pull origin main
+            else
+              git clone https://github.com/john-mayou/personal-site.git app
+              cd app
+            fi
+
             touch .env
             echo "DEPLOY_ENV=production" >> .env
             echo "DEPLOY_VERSION=$DEPLOY_VERSION" >> .env
-            docker-compose -f docker-compose.deploy.yml pull
-            docker-compose -f docker-compose.deploy.yml up -d
+
+            if ! command -v docker &> /dev/null; then
+              curl -fsSL https://get.docker.com | sh
+            fi
+
+            echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
+            docker compose -f docker-compose.deploy.yml pull
+            docker compose -f docker-compose.deploy.yml up -d
