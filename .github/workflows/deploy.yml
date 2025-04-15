@@ -24,7 +24,7 @@ jobs:
           cd terraform
           terraform init
           terraform apply -auto-approve \
-            -var="do_api_keyn=${{ secrets.DO_API_KEY }}" \
+            -var="do_api_key=${{ secrets.DO_API_KEY }}" \
             -var="do_ssh_public_key=${{ secrets.DO_SSH_PUBLIC_KEY }}" \
             -var="cloudflare_api_key=${{ secrets.CF_API_KEY }}" \
             -var="cloudflare_zone_id=${{ secrets.CF_ZONE_ID }}"
