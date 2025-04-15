@@ -37,7 +37,7 @@ jobs:
           echo "DO_STAGING_IP=$(terraform output -raw staging_ip)" >> $GITHUB_ENV
           echo "DO_PROD_IP=$(terraform output -raw prod_ip)" >> $GITHUB_ENV
 
-      - name: Log in to DigitalOcean Registry
+      - name: Log in to DigitalOcean CLI
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DO_API_KEY }}
