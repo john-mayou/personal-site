@@ -82,7 +82,7 @@ jobs:
 
             echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
-            docker compose -f docker-compose.deploy.yml up -d
+            docker compose -f docker-compose.deploy.yml up -d --force-recreate
 
       - name: Wait for Services
         run: sleep 5
@@ -120,4 +120,4 @@ jobs:
 
             echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
-            docker compose -f docker-compose.deploy.yml up -d
+            docker compose -f docker-compose.deploy.yml up -d --force-recreate
