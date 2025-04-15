@@ -74,7 +74,10 @@ jobs:
             echo "DEPLOY_ENV=staging" >> .env
             echo "DEPLOY_VERSION=$DEPLOY_VERSION" >> .env
 
-            apt update && apt install -y docker.io docker-compose-plugin
+            if ! command -v docker &> /dev/null; then
+              curl -fsSL https://get.docker.com | sh
+            fi
+
             docker-compose -f docker-compose.deploy.yml pull
             docker-compose -f docker-compose.deploy.yml up -d
 
@@ -101,6 +104,9 @@ jobs:
             echo "DEPLOY_ENV=production" >> .env
             echo "DEPLOY_VERSION=$DEPLOY_VERSION" >> .env
 
-            apt update && apt install -y docker.io docker-compose-plugin
+            if ! command -v docker &> /dev/null; then
+              curl -fsSL https://get.docker.com | sh
+            fi
+
             docker-compose -f docker-compose.deploy.yml pull
             docker-compose -f docker-compose.deploy.yml up -d
