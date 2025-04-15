@@ -69,9 +69,11 @@ jobs:
               git clone https://github.com/john-mayou/personal-site.git app
               cd app
             fi
+
             touch .env
             echo "DEPLOY_ENV=staging" >> .env
             echo "DEPLOY_VERSION=$DEPLOY_VERSION" >> .env
+
             docker-compose -f docker-compose.deploy.yml pull
             docker-compose -f docker-compose.deploy.yml up -d
 
@@ -93,8 +95,10 @@ jobs:
               git clone https://github.com/john-mayou/personal-site.git app
               cd app
             fi
+
             touch .env
             echo "DEPLOY_ENV=production" >> .env
             echo "DEPLOY_VERSION=$DEPLOY_VERSION" >> .env
+
             docker-compose -f docker-compose.deploy.yml pull
             docker-compose -f docker-compose.deploy.yml up -d
