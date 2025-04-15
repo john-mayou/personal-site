@@ -41,7 +41,7 @@ jobs:
           token: ${{ secrets.DO_API_KEY }}
 
       - name: Set Deploy Version
-        run: echo "$DEPLOY_VERSION=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+        run: echo "DEPLOY_VERSION=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
       - name: Build and Push Docker Images
         run: |
