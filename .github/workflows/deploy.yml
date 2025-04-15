@@ -59,11 +59,12 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           DEPLOY_VERSION: ${{ env.DEPLOY_VERSION }}
+          DO_API_KEY: ${{ secrets.DO_API_KEY }}
         with:
           host: ${{ env.DO_STAGING_IP }}
           username: root
           key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
-          envs: DEPLOY_VERSION
+          envs: DEPLOY_VERSION,DO_API_KEY
           script: |
             if [ -d "app" ]; then
               cd app
@@ -81,6 +82,7 @@ jobs:
               curl -fsSL https://get.docker.com | sh
             fi
 
+            echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
             docker compose -f docker-compose.deploy.yml up -d
 
@@ -92,11 +94,12 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           DEPLOY_VERSION: ${{ env.DEPLOY_VERSION }}
+          DO_API_KEY: ${{ secrets.DO_API_KEY }}
         with:
           host: ${{ env.DO_PROD_IP }}
           username: root
           key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
-          envs: DEPLOY_VERSION
+          envs: DEPLOY_VERSION,DO_API_KEY
           script: |
             if [ -d "app" ]; then
               cd app
@@ -114,5 +117,6 @@ jobs:
               curl -fsSL https://get.docker.com | sh
             fi
 
+            echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
             docker compose -f docker-compose.deploy.yml up -d
