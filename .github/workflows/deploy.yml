@@ -1,8 +1,6 @@
 name: Deploy Application
 
 on:
-  pull_request:
-    branches: main
   push:
     branches:
       - main
@@ -85,6 +83,9 @@ jobs:
             echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
             docker compose -f docker-compose.deploy.yml up -d
+
+      - name: Wait for Services
+        run: sleep 5
 
       - name: Staging Health Check
         run: curl -sf https://staging.johnmayou.com/health
