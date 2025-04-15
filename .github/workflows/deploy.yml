@@ -16,17 +16,18 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_KEY }}
 
       - name: Terraform Init + Apply
-        working-directory: terraform
-        env:
-          TF_VAR_do_api_key: ${{ secrets.DO_API_KEY }}
-          TF_VAR_do_ssh_public_key: ${{ secrets.DO_SSH_PUBLIC_KEY }}
-          TF_VAR_cloudflare_api_key: ${{ secrets.CF_API_KEY }}
-          TF_VAR_cloudflare_zone_id: ${{ secrets.CF_ZONE_ID }}
         run: |
+          cd terraform
           terraform init
-          terraform apply -auto-approve
+          terraform apply -auto-approve \
+            -var="do_api_keyn=${{ secrets.DO_API_KEY }}" \
+            -var="do_ssh_public_key=${{ secrets.DO_SSH_PUBLIC_KEY }}" \
+            -var="cloudflare_api_key=${{ secrets.CF_API_KEY }}" \
+            -var="cloudflare_zone_id=${{ secrets.CF_ZONE_ID }}"
 
       - name: Get Droplet IPs
         run: |
@@ -44,10 +45,10 @@ jobs:
 
       - name: Build and Push Docker Images
         run: |
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/myproject/api:$VERSION -f api/Dockerfile .
-          docker push registry.digitalocean.com/myproject/api:$VERSION
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/myproject/frontend:$VERSION -f frontend/Dockerfile ./frontend
-          docker push registry.digitalocean.com/myproject/frontend:$VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/api:$VERSION -f api/Dockerfile .
+          docker push registry.digitalocean.com/personal-site/api:$VERSION
+          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site/frontend:$VERSION -f frontend/Dockerfile ./frontend
+          docker push registry.digitalocean.com/personal-site/frontend:$VERSION
 
       - name: Deploy to Staging
         uses: appleboy/ssh-action@master
