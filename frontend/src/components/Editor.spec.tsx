@@ -25,6 +25,8 @@ const mockFiles = {
 let user: ReturnType<typeof userEvent.setup>
 
 beforeEach(() => {
+  Object.defineProperty(navigator, 'sendBeacon', { value: jest.fn(), writable: true })
+
   user = userEvent.setup()
   useEditorStore.setState({
     files: mockFiles,
