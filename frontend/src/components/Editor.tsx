@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useMemo, useRef } from 'react'
+import { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react'
 import { HiXMark } from 'react-icons/hi2'
 import { PiMarkdownLogoLight, PiMarkdownLogoFill } from 'react-icons/pi'
 import CodeMirror from '@uiw/react-codemirror'
@@ -193,18 +193,11 @@ const DEBOUNCE_MS = process.env.NODE_ENV === 'test' ? 1 : 50
 function EditorPane() {
   const { activeContent, setActiveContent } = useEditorStore()
   const [draft, setDraft] = useState(activeContent)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     setDraft(activeContent)
   }, [activeContent])
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setActiveContent(draft)
-    }, DEBOUNCE_MS)
-
-    return () => clearTimeout(timeout) // runs before next useEffect call
-  }, [draft, setActiveContent])
 
   return (
     <div data-testid="editor-editor-pane" className={styles.editorPane}>
@@ -220,8 +213,17 @@ function EditorPane() {
             codeLanguages: languages,
           }),
         ]}
-        onChange={setDraft}
-        onBlur={() => setActiveContent(draft)}
+        onChange={(value) => {
+          setDraft(value)
+
+          // debounce
+          if (timeoutRef.current) clearTimeout(timeoutRef.current)
+          timeoutRef.current = setTimeout(() => setActiveContent(value), DEBOUNCE_MS)
+        }}
+        onBlur={() => {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current) // make sure were not setting stale data
+          setActiveContent(draft)
+        }}
       />
     </div>
   )
@@ -230,32 +232,29 @@ function EditorPane() {
 function PreviewPane() {
   const { activeContent, previewShow, compileMarkdown } = useEditorStore()
   const previewRef = useRef<HTMLDivElement>(null)
-  const html = useMemo(() => compileMarkdown(activeContent), [activeContent, compileMarkdown])
+  const compiledHtml = useMemo(
+    () => compileMarkdown(activeContent),
+    [activeContent, compileMarkdown]
+  )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const node = previewRef.current
     if (!node) return
 
-    const observer = new MutationObserver(() => {
-      node?.querySelectorAll('pre code').forEach((block) => {
-        if (block.classList.contains('hljs')) return // already highlighted
-        const lang = block.classList && block.classList[0]
-        if (!lang) block.classList.add('language-plaintext')
-        hljs.highlightElement(block as HTMLElement)
-      })
+    node.querySelectorAll('pre code').forEach((block) => {
+      if (block.classList.contains('hljs')) return // already highlighted
+      const lang = block.classList && block.classList[0]
+      if (!lang) block.classList.add('language-plaintext')
+      hljs.highlightElement(block as HTMLElement)
     })
-
-    observer.observe(node, { childList: true, subtree: true })
-
-    return () => observer.disconnect() // clean up
-  }, [html, previewShow])
+  })
 
   return (
     <div
       ref={previewRef}
       data-testid="editor-preview-pane"
       className={`${styles.previewPane} ${previewShow ? styles.show : ''}`}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: compiledHtml }}
     ></div>
   )
 }
