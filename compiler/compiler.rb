@@ -118,7 +118,7 @@ module Compiler
           curr_push.call if !curr.empty?
           @tks << Token.new(:image, {alt: $1, src: $2})
           line.slice!(0, $1.size + $2.size + 5) # ![]() = 5
-        elsif line.start_with?('[') && line =~ /\A\[(.+)\]\((.*)\)/ # link
+        elsif line.start_with?('[') && line =~ /\A\[(.*)\]\((.*)\)/ # link
           curr_push.call if !curr.empty?
           @tks << Token.new(:link, {text: $1, href: $2})
           line.slice!(0, $1.size + $2.size + 4) # []() = 4
