@@ -1,5 +1,0 @@
----
-category: leetcode
----
-
-Two Sum!
