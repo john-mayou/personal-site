@@ -26,11 +26,19 @@ jobs:
           sudo apt update
           sudo apt install -y docker-compose
 
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('tests/e2e/package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
       - name: Install Playwright Dependencies
         run: |
           cd tests/e2e
           npm ci
-          npx playwright install --with-deps
+          npx playwright install chromium
 
       - name: Start Services
         run: docker-compose -f docker-compose.ci.yml up -d
