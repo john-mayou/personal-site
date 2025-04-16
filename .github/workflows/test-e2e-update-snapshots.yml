@@ -1,0 +1,64 @@
+name: Test E2E Update Snapshots
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  update:
+    name: Update Snapshots
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/approve-snapshots')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Get Branch of PR
+        uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+
+      - name: Comment Action Started
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            ### Updating snapshots. Click [here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) to see the status.
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install Docker Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y docker-compose
+
+      - name: Install Playwright Dependencies
+        run: |
+          cd tests/e2e
+          npm ci
+          npx playwright install chromium
+
+      - name: Start Services
+        run: docker-compose -f docker-compose.ci.yml up -d
+
+      - name: Run Playwright Tests
+        run: |
+          cd tests/e2e
+          PLAYWRIGHT_HTML_OPEN=never npx playwright test --reporter=html --update-snapshots
+
+      - name: Commit and Push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update e2e snapshots"
+
+      - name: Comment Cuccess
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            ### 🎉 Successfully updated and committed Playwright snapshots! 🎉
