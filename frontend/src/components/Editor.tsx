@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { HiXMark } from 'react-icons/hi2'
 import { PiMarkdownLogoLight, PiMarkdownLogoFill } from 'react-icons/pi'
 import CodeMirror from '@uiw/react-codemirror'
@@ -14,6 +14,13 @@ import { trackMetric } from '@/utils/metrics'
 import titleize from '@/utils/titleize'
 import Compiler from '@/utils/compiler'
 import styles from './Editor.module.scss'
+import hljs from 'highlight.js/lib/core'
+import python from 'highlight.js/lib/languages/python'
+import plaintext from 'highlight.js/lib/languages/plaintext'
+import 'highlight.js/styles/github-dark.css'
+
+hljs.registerLanguage('python', python)
+hljs.registerLanguage('plaintext', plaintext)
 
 export function EditorWrapper({ files }: { files: Record<number, MarkdownFile> }) {
   const { setFiles, setActiveFile, setPreviewShow, setMarkdownCompiler } = useEditorStore()
@@ -222,12 +229,33 @@ function EditorPane() {
 
 function PreviewPane() {
   const { activeContent, previewShow, compileMarkdown } = useEditorStore()
+  const previewRef = useRef<HTMLDivElement>(null)
+  const html = useMemo(() => compileMarkdown(activeContent), [activeContent, compileMarkdown])
+
+  useEffect(() => {
+    const node = previewRef.current
+    if (!node) return
+
+    const observer = new MutationObserver(() => {
+      node?.querySelectorAll('pre code').forEach((block) => {
+        if (block.classList.contains('hljs')) return // already highlighted
+        const lang = block.classList && block.classList[0]
+        if (!lang) block.classList.add('language-plaintext')
+        hljs.highlightElement(block as HTMLElement)
+      })
+    })
+
+    observer.observe(node, { childList: true, subtree: true })
+
+    return () => observer.disconnect() // clean up
+  }, [html, previewShow])
 
   return (
     <div
+      ref={previewRef}
       data-testid="editor-preview-pane"
       className={`${styles.previewPane} ${previewShow ? styles.show : ''}`}
-      dangerouslySetInnerHTML={{ __html: compileMarkdown(activeContent) }}
+      dangerouslySetInnerHTML={{ __html: html }}
     ></div>
   )
 }
