@@ -32,8 +32,8 @@ jobs:
       - name: Get Droplet IPs
         run: |
           cd terraform
-          echo "DO_STAGING_IP=$(terraform output -raw staging_ip)" >> $GITHUB_ENV
-          echo "DO_PROD_IP=$(terraform output -raw prod_ip)" >> $GITHUB_ENV
+          echo "DO_STAGING_IP=$(terraform output -raw staging_ip)" >> "$GITHUB_ENV"
+          echo "DO_PROD_IP=$(terraform output -raw prod_ip)" >> "$GITHUB_ENV"
 
       - name: Log in to DigitalOcean CLI
         uses: digitalocean/action-doctl@v2
@@ -44,14 +44,14 @@ jobs:
         run: doctl registry login --access-token=${{ secrets.DO_API_KEY }}
 
       - name: Set Deploy Version
-        run: echo "DEPLOY_VERSION=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+        run: echo "DEPLOY_VERSION=$(date +%Y%m%d%H%M%S)" >> "$GITHUB_ENV"
 
       - name: Build and Push Docker Images
         run: |
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site-registry/api:$DEPLOY_VERSION -f api/Dockerfile .
-          docker push registry.digitalocean.com/personal-site-registry/api:$DEPLOY_VERSION
-          docker buildx build --platform linux/amd64 -t registry.digitalocean.com/personal-site-registry/frontend:$DEPLOY_VERSION -f frontend/Dockerfile ./frontend
-          docker push registry.digitalocean.com/personal-site-registry/frontend:$DEPLOY_VERSION
+          docker buildx build --platform linux/amd64 -t "registry.digitalocean.com/personal-site-registry/api:$DEPLOY_VERSION" -f api/Dockerfile .
+          docker push "registry.digitalocean.com/personal-site-registry/api:$DEPLOY_VERSION"
+          docker buildx build --platform linux/amd64 -t "registry.digitalocean.com/personal-site-registry/frontend:$DEPLOY_VERSION" -f frontend/Dockerfile ./frontend
+          docker push "registry.digitalocean.com/personal-site-registry/frontend:$DEPLOY_VERSION"
 
       - name: Deploy to Staging
         uses: appleboy/ssh-action@v1

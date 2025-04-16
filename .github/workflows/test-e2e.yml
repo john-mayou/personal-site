@@ -49,7 +49,7 @@ jobs:
           PLAYWRIGHT_HTML_OPEN=never npx playwright test --reporter=html | tee output.log
           if grep -q -e "Error: A snapshot doesn't exist at" -e "expect.toHaveScreenshot" output.log; then
             echo "Playwright tests failed due to a snapshot issue."
-            echo "SNAPSHOT_DIFFERENCES=true" >> $GITHUB_ENV
+            echo "SNAPSHOT_DIFFERENCES=true" >> "$GITHUB_ENV"
             exit 1
           elif grep -q "failed" output.log; then
             echo "Playwright tests failed due to a non-snapshot issue."
