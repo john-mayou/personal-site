@@ -5,6 +5,8 @@ const fs = require('node:fs')
 const path = require('node:path')
 const sanitizeFilename = require('sanitize-filename')
 
+const EDITOR_DEBOUNCE_MS = 55 // 50 + 5ms buffer
+
 const isMac = process.platform === 'darwin'
 const selectAllKey = isMac ? 'Meta+A' : 'Control+A'
 
@@ -27,6 +29,7 @@ async function replaceEditorText(page: Page, editor: Locator, text: string) {
   await page.keyboard.press(selectAllKey)
   await page.keyboard.press('Backspace')
   await editor.fill(text)
+  await page.waitForTimeout(EDITOR_DEBOUNCE_MS)
 }
 
 test.describe('Editor', () => {
@@ -99,6 +102,7 @@ test.describe('Editor', () => {
     for (let i = 0; i < 2; i++) await page.keyboard.press('ArrowDown') // all the way to the bottom
     await page.keyboard.press('Enter')
     await page.keyboard.type('text')
+    await page.waitForTimeout(EDITOR_DEBOUNCE_MS)
     await screenshot(page, testInfo, 'after-non-code-text-added')
     await assertSyntaxHighlightClasses()
 
