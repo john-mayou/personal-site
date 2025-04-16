@@ -3,7 +3,8 @@ import { useEffect, useState, useMemo } from 'react'
 import { HiXMark } from 'react-icons/hi2'
 import { PiMarkdownLogoLight, PiMarkdownLogoFill } from 'react-icons/pi'
 import CodeMirror from '@uiw/react-codemirror'
-import { markdown as codeMirrorMarkdownExt } from '@codemirror/lang-markdown'
+import { markdown as markdownEtx, markdownLanguage } from '@codemirror/lang-markdown'
+import { languages } from '@codemirror/language-data'
 import {
   useEditorStore,
   File as MarkdownFile,
@@ -206,7 +207,12 @@ function EditorPane() {
         height="100%"
         width="100%"
         theme="dark"
-        extensions={[codeMirrorMarkdownExt()]}
+        extensions={[
+          markdownEtx({
+            base: markdownLanguage,
+            codeLanguages: languages,
+          }),
+        ]}
         onChange={setDraft}
         onBlur={() => setActiveContent(draft)}
       />
