@@ -2,11 +2,11 @@ import Health from '@/components/Health'
 import Metrics from '@/components/Metrics'
 import Navbar from '@/components/Navbar'
 import { EditorWrapper } from '@/components/Editor'
-import { loadContentFiles } from '@/utils/content'
+import { loadAllContentFiles } from '@/utils/content'
 import styles from './page.module.scss'
 
-export default function Home() {
-  const files = loadContentFiles()
+export default async function Home() {
+  const files = await loadAllContentFiles()
 
   return (
     <div>
