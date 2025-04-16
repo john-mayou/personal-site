@@ -10,7 +10,7 @@ Notice that you may not slant the container.
 
 **Example 1:**
 
-![](/public/content/leetcode/11-container-with-the-most-water/example-1.jpg)
+![](/content/leetcode/11-container-with-the-most-water/example-1.jpg)
 
 ```
 Input: height = [1,8,6,2,5,4,8,3,7]
