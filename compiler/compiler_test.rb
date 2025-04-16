@@ -66,11 +66,10 @@ module Compiler
 
   class TestGolden < Minitest::Test
     filepaths = Dir.glob('testdata/*.text')
-    puts filepaths
     filepaths.each do |filepath|
       define_method("test_golden_#{filepath}") do
         html = Compiler.compile(File.read(filepath))
-        html, err, status = Open3.capture3("echo '#{html}' | prettier --parser html")
+        html, err, status = Open3.capture3('prettier --parser html', stdin_data: html)
         if !status.success?
           raise SystemCallError, err
         end

@@ -12,5 +12,5 @@ rm -rf temp
 ## == Fix relative urls to be relative to /public ==
 find . -name 'README.md' | while read -r file; do
   dir=$(dirname "$file" | sed 's|^\./||') # strip leading ./ for clean URL
-  perl -i -pe "s|!\[(.*)\]\((?!http)(.*)\)|![\1](/public/content/leetcode/${dir}/\2)|g" "$file"
+  perl -i -pe "s|!\[(.*)\]\((?!http)(.*)\)|![\1](/content/leetcode/${dir}/\2)|g" "$file"
 done
