@@ -165,7 +165,7 @@ function Toolbar() {
             <PiMarkdownLogoLight className={styles.markdownIcon} />
             {file.title}
             <HiXMark
-              data-testid={`close-${file.name}`}
+              data-testid={`close-${file.title}`}
               className={`${styles.closeIcon} ${isActive ? '' : styles.inactive}`}
               onClick={(e) => {
                 if (!isActive) return
