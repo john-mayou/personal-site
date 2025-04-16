@@ -122,7 +122,7 @@ module Compiler
           curr_push.call if !curr.empty?
           @tks << Token.new(:link, {text: $1, href: $2})
           line.slice!(0, $1.size + $2.size + 4) # []() = 4
-        elsif line.start_with?('`') && line =~ /\A`(.+)`([a-z]*)/ # code
+        elsif line.start_with?('`') && line =~ /\A`(.+?)`([a-z]*)/ # code
           curr_push.call if !curr.empty?
           @tks << Token.new(:code, {lang: $2 || '', code: $1})
           line.slice!(0, $1.size + $2.size + 2) # `` = 2
