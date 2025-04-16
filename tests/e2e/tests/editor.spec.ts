@@ -19,9 +19,9 @@ async function waitForLoad(page: Page) {
   await getPreview(page).locator('p').waitFor() // wait until compiler loads
 }
 
-async function screenshot(page: Page, testInfo: TestInfo, name: string) {
-  const filename = sanitizeFilename(`${testInfo.title}_${name}`)
-  await page.screenshot({ path: `screenshots/${filename}.png`, fullPage: true })
+async function assertScreenshot(page: Page, testInfo: TestInfo, name: string) {
+  const filename = sanitizeFilename(`${testInfo.title}_${name}`) + '.png'
+  await expect(page).toHaveScreenshot(filename, { fullPage: true })
 }
 
 async function replaceEditorText(page: Page, editor: Locator, text: string) {
@@ -37,7 +37,7 @@ test.describe('Editor', () => {
     await page.goto('/')
     await waitForLoad(page)
 
-    await screenshot(page, testInfo, 'editor-on-load')
+    await assertScreenshot(page, testInfo, 'editor-on-load')
 
     await replaceEditorText(page, getEditor(page), '# Hello world')
     await expect(getPreview(page).locator('h1', { hasText: 'Hello world' })).toBeVisible()
@@ -88,13 +88,13 @@ test.describe('Editor', () => {
         pass
       \`\`\``
     )
-    await screenshot(page, testInfo, 'after-code-text-added')
+    await assertScreenshot(page, testInfo, 'after-code-text-added')
     await assertSyntaxHighlightClasses()
 
     // switch tabs and switch back
     await getSidebar(page).getByText('Resume.md').click()
     await getToolbar(page).getByText('Intro.md').click()
-    await screenshot(page, testInfo, 'after-tab-switch-and-switch-back')
+    await assertScreenshot(page, testInfo, 'after-tab-switch-and-switch-back')
     await assertSyntaxHighlightClasses()
 
     // add text that isnt code
@@ -103,12 +103,12 @@ test.describe('Editor', () => {
     await page.keyboard.press('Enter')
     await page.keyboard.type('text')
     await page.waitForTimeout(EDITOR_DEBOUNCE_MS)
-    await screenshot(page, testInfo, 'after-non-code-text-added')
+    await assertScreenshot(page, testInfo, 'after-non-code-text-added')
     await assertSyntaxHighlightClasses()
 
     // de-focus from editor (blur)
     await page.mouse.click(0, 0)
-    await screenshot(page, testInfo, 'after-editor-blur')
+    await assertScreenshot(page, testInfo, 'after-editor-blur')
     await assertSyntaxHighlightClasses()
   })
 
@@ -124,6 +124,6 @@ test.describe('Editor', () => {
     await replaceEditorText(page, getEditor(page), longWideMd)
 
     await expect(getPreview(page)).toContainText('Lorem ipsum') // wait for preview
-    await screenshot(page, testInfo, 'with-oversize-markdown')
+    await assertScreenshot(page, testInfo, 'with-oversize-markdown')
   })
 })
