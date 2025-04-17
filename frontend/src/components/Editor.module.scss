@@ -79,6 +79,8 @@ $vscode-background-color: #181818;
   width: 175px;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  @include no-scroll-bar();
   border-right: $editor-border-size solid $editor-border-color;
 
   .categorySpacer {
@@ -209,13 +211,17 @@ $vscode-background-color: #181818;
   :global(h1) {
     font-size: 1.5rem;
     font-weight: 600;
-    margin-top: 1.5rem;
+    &:not(:first-child) {
+      margin-top: 1.5rem;
+    }
   }
 
   :global(h2) {
     font-size: 1.25rem;
     font-weight: 600;
-    margin-top: 1.25rem;
+    &:not(:first-child) {
+      margin-top: 1.25rem;
+    }
   }
 
   :global(hr) {
