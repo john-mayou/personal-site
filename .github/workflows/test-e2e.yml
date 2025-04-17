@@ -9,9 +9,8 @@ jobs:
     name: Test E2E
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: tests/e2e
+    permissions:
+      pull-requests: write
 
     steps:
       - name: Checkout Repo
@@ -22,31 +21,50 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Install Docker Compose
+      - name: Install Docker Dependencies
         run: |
           sudo apt update
           sudo apt install -y docker-compose
 
+      - name: Install Playwright Dependencies
+        run: |
+          cd tests/e2e
+          npm ci
+          npx playwright install chromium
+
       - name: Start Services
         run: docker-compose -f docker-compose.ci.yml up -d
-        working-directory: .
 
       - name: Run Playwright Tests
-        run: npx playwright test
+        run: |
+          cd tests/e2e
+          PLAYWRIGHT_HTML_OPEN=never npx playwright test --reporter=html | tee output.log
+          if grep -q -e "Error: A snapshot doesn't exist at" -e "expect.toHaveScreenshot" output.log; then
+            echo "Playwright tests failed due to a snapshot issue."
+            echo "SNAPSHOT_DIFFERENCES=true" >> "$GITHUB_ENV"
+            exit 1
+          elif grep -q "failed" output.log; then
+            echo "Playwright tests failed due to a non-snapshot issue."
+            exit 1
+          fi
 
       - name: Stop Services
+        if: always()
         run: docker-compose -f docker-compose.ci.yml down
-        working-directory: .
 
       - uses: actions/upload-artifact@v4
+        id: artifact-upload
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
           path: tests/e2e/playwright-report/
           retention-days: 30
+
+      - name: Comment on PR with report link
+        uses: thollander/actions-comment-pull-request@v3
+        if: ${{ failure() && env.SNAPSHOT_DIFFERENCES == 'true' }}
+        with:
+          message: |
+            ### Playwright visual snapshot differences were detected.
+            View the [Playwright report](${{ steps.artifact-upload.outputs.artifact-url }}) to review the visual differences.
+            **To approve the snapshot changes and update the snapshots, please comment:** /approve-snapshots

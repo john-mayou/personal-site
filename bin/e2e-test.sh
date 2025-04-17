@@ -5,7 +5,7 @@ docker-compose -f "$ROOT_DIR/docker-compose.ci.yml" up --build -d
 
 cd "$ROOT_DIR/tests/e2e"
 npm install
-npx playwright test --reporter=html
+PLAYWRIGHT_HTML_OPEN=never npx playwright test --reporter=html
 success=$?
 
 docker-compose -f "$ROOT_DIR/docker-compose.ci.yml" down
