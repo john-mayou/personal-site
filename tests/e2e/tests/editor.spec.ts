@@ -16,7 +16,7 @@ const getEditor = (page: Page) => page.getByTestId('editor-editor-pane').locator
 const getPreview = (page: Page) => page.getByTestId('editor-preview-pane')
 
 async function waitForLoad(page: Page) {
-  await getPreview(page).locator('p').waitFor() // wait until compiler loads
+  await getPreview(page).locator('h2:text("John Mayou")').waitFor() // wait until compiler loads
 }
 
 async function assertScreenshot(page: Page, testInfo: TestInfo, name: string) {
