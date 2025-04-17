@@ -28,7 +28,7 @@ export function EditorWrapper({ files }: { files: Record<number, MarkdownFile> }
   useEffect(() => {
     setFiles(files)
     for (const id in files) {
-      if (files[id].title === 'Intro.md') {
+      if (files[id].title === 'Resume.md') {
         setActiveFile(Number(id))
         break
       }
@@ -91,7 +91,7 @@ function Sidebar() {
       }
     }
 
-    const pinnedOrder = ['Intro.md', 'Resume.md']
+    const pinnedOrder = ['Resume.md']
     const pinnedIndex: Record<string, number> = Object.fromEntries(
       pinnedOrder.map((name, i) => [name, i])
     )
