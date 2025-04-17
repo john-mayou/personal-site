@@ -79,6 +79,7 @@ jobs:
             if ! command -v docker &> /dev/null; then
               curl -fsSL https://get.docker.com | sh
             fi
+            docker system prune -af
 
             echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
@@ -117,6 +118,7 @@ jobs:
             if ! command -v docker &> /dev/null; then
               curl -fsSL https://get.docker.com | sh
             fi
+            docker system prune -af
 
             echo "$DO_API_KEY" | docker login registry.digitalocean.com --username doctl --password-stdin
             docker compose -f docker-compose.deploy.yml pull
