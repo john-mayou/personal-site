@@ -6,9 +6,7 @@ Find two lines that together with the x-axis form a container, such that the con
 
 Return the maximum amount of water a container can store.
 
-Notice that you may not slant the container.
-
-**Example 1:**
+### Example
 
 ![](/content/leetcode/11-container-with-the-most-water/example-1.jpg)
 
@@ -18,24 +16,15 @@ Output: 49
 Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
 ```
 
-**Example 2:**
-
-```
-Input: height = [1,1]
-Output: 1
-```
-
-**Constraints:**
-
-- `n == height.length`
-- `2 <= n <= 105`
-- `0 <= height[i] <= 104`
-
 ## Approach
 
-TODO
+The brute-force approach here would be to find every combination of container endpoints and keep track of the largest. This approach would result in `O(n^2)` time and `O(1)` space, but we can do better.
 
-## Code
+A better way to solve this would be to use a two pointer technique that runs in linear time. Until our two pointers collide, we determine which endpoint to move based on the height.
+
+The core idea here is that moving the taller endpoint can only hurt us, so we always move the smaller one in hopes of finding a larger area. In the event that they are the same height, it does not matter which one we move.
+
+This solution has a much better `O(n)` time and `O(1)` space, resulting in a faster algorithm.
 
 ```python
 class Solution:

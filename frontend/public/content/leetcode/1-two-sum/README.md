@@ -4,9 +4,7 @@ Given an array of integers `nums` and an integer `target`, return indices of the
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
 
-You can return the answer in any order.
-
-**Example 1:**
+### Example
 
 ```
 Input: nums = [2,7,11,15], target = 9
@@ -14,32 +12,11 @@ Output: [0,1]
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 ```
 
-**Example 2:**
-
-```
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
-```
-
-**Example 3:**
-
-```
-Input: nums = [3,3], target = 6
-Output: [0,1]
-```
-
-**Constrains:**
-
-- `2 <= nums.length <= 104`
-- `-109 <= nums[i] <= 109`
-- `-109 <= target <= 109`
-- `Only one valid answer exists.`
-
 ## Approach
 
-TODO
+The brute-force approach for this problem would be to loop over every possible combination of numbers until a solution is found. That solution would result in `O(n^2)` time and `O(1)` space, but we can do better.
 
-## Code
+The way to solve this problem in `O(n)` time would be to store a hashmap of the previously seen `value: index`. With that, if we have previously seen the complement, we know that to be the solution. This solution does have a worse `O(n)` space, although that seems like a reasonable trade.
 
 ```python
 class Solution:
