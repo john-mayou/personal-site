@@ -8,17 +8,17 @@ jest.mock('@uiw/react-codemirror')
 const mockFiles = {
   1: {
     id: 1,
-    name: 'Intro.md',
-    category: 'general',
-    title: 'Intro.md',
-    content: 'Intro content',
-  },
-  2: {
-    id: 2,
     name: 'Resume.md',
     category: 'general',
     title: 'Resume.md',
     content: 'Resume content',
+  },
+  2: {
+    id: 2,
+    name: 'File.md',
+    category: 'general',
+    title: 'File.md',
+    content: 'File content',
   },
 }
 
@@ -69,10 +69,10 @@ test('persists changes when changing between tabs', async () => {
   await user.type(editor, 'Hello world')
 
   // open new file (new tab)
-  await user.click(within(sidebar).getByText('Resume.md'))
+  await user.click(within(sidebar).getByText('File.md'))
 
   // click back to original tab
-  await user.click(within(toolbar).getByText('Intro.md'))
+  await user.click(within(toolbar).getByText('Resume.md'))
 
   expect(editor).toHaveValue('Hello world')
   expect(preview).toHaveTextContent('Hello world')
@@ -86,11 +86,11 @@ test('persists changes when closing and reopening a file', async () => {
   await user.type(editor, 'Hello world')
 
   // close tab
-  await user.click(within(toolbar).getByTestId('close-Intro.md'))
+  await user.click(within(toolbar).getByTestId('close-Resume.md'))
   expect(editor).toHaveValue('')
 
   // open file back up
-  await user.click(within(sidebar).getByText('Intro.md'))
+  await user.click(within(sidebar).getByText('Resume.md'))
   expect(editor).toHaveValue('Hello world')
   expect(preview).toHaveTextContent('Hello world')
 })
@@ -99,20 +99,20 @@ test('closing a tab switches to next tab', async () => {
   const { sidebar, toolbar, editor, preview } = getEditorUI()
 
   // open another file
-  await user.click(within(sidebar).getByText('Resume.md'))
-  expect(editor).toHaveValue('Resume content')
+  await user.click(within(sidebar).getByText('File.md'))
+  expect(editor).toHaveValue('File content')
 
   // close file that was just opened
-  await user.click(within(toolbar).getByTestId('close-Resume.md'))
-  expect(editor).toHaveValue('Intro content')
-  expect(preview).toHaveTextContent('Intro content')
+  await user.click(within(toolbar).getByTestId('close-File.md'))
+  expect(editor).toHaveValue('Resume content')
+  expect(preview).toHaveTextContent('Resume content')
 })
 
 test('closing the last tab shows no content', async () => {
   const { toolbar, editor, preview } = getEditorUI()
 
   // close only tab
-  await user.click(within(toolbar).getByTestId('close-Intro.md'))
+  await user.click(within(toolbar).getByTestId('close-Resume.md'))
   expect(editor).toHaveValue('')
   expect(preview).toHaveTextContent('')
 })
@@ -121,7 +121,7 @@ test('can still open a file after closing all tabs', async () => {
   const { sidebar, toolbar, editor, preview } = getEditorUI()
 
   // close only tab
-  await user.click(within(toolbar).getByTestId('close-Intro.md'))
+  await user.click(within(toolbar).getByTestId('close-Resume.md'))
 
   // open new file
   await user.click(within(sidebar).getByText('Resume.md'))
@@ -133,9 +133,9 @@ test('opening the same file does not duplicate tabs', async () => {
   const { sidebar, toolbar } = getEditorUI()
 
   // open resume x3
-  await user.click(within(sidebar).getByText('Resume.md'))
-  await user.click(within(sidebar).getByText('Resume.md'))
-  await user.click(within(sidebar).getByText('Resume.md'))
+  await user.click(within(sidebar).getByText('File.md'))
+  await user.click(within(sidebar).getByText('File.md'))
+  await user.click(within(sidebar).getByText('File.md'))
 
-  expect(within(toolbar).getAllByText('Resume.md').length).toBe(1)
+  expect(within(toolbar).getAllByText('File.md').length).toBe(1)
 })
