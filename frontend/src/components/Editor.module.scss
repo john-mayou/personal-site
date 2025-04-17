@@ -211,13 +211,17 @@ $vscode-background-color: #181818;
   :global(h1) {
     font-size: 1.5rem;
     font-weight: 600;
-    margin-top: 1.5rem;
+    &:not(:first-child) {
+      margin-top: 1.5rem;
+    }
   }
 
   :global(h2) {
     font-size: 1.25rem;
     font-weight: 600;
-    margin-top: 1.25rem;
+    &:not(:first-child) {
+      margin-top: 1.25rem;
+    }
   }
 
   :global(hr) {
