@@ -79,6 +79,8 @@ $vscode-background-color: #181818;
   width: 175px;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  @include no-scroll-bar();
   border-right: $editor-border-size solid $editor-border-color;
 
   .categorySpacer {
