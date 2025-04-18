@@ -11,19 +11,29 @@ export default class Compiler {
   }
 
   private async loadVM() {
-    await loadScript('/wasm/browser.js')
+    let compiler: string | null = null
 
-    // @ts-expect-error runtime global
-    await window['ruby-wasm-wasi'].main({
-      name: '@ruby/3.4-wasm-wasi',
-      version: '2.7.1',
-    })
+    await Promise.all([
+      (async () => {
+        await loadScript('/wasm/browser.js')
 
-    // @ts-expect-error runtime global
-    this.vm = window.rubyVM as RubyVM
+        // @ts-expect-error runtime global
+        await window['ruby-wasm-wasi'].main({
+          name: '@ruby/3.4-wasm-wasi',
+          version: '2.7.1',
+        })
 
-    const compiler = await fetchApi('/api/ruby/compiler.rb').then((r) => r.text())
-    this.vm.eval(compiler)
+        // @ts-expect-error runtime global
+        this.vm = window.rubyVM as RubyVM
+      })(),
+      (async () => {
+        compiler = await fetchApi('/api/ruby/compiler.rb').then((r) => r.text())
+      })(),
+    ])
+
+    if (this.vm && compiler) {
+      this.vm.eval(compiler)
+    }
   }
 
   compile(markdown: string): string {
