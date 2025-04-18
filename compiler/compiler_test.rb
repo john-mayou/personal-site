@@ -67,7 +67,7 @@ module Compiler
   class TestGolden < Minitest::Test
     filepaths = Dir.glob('testdata/*.text')
     filepaths.each do |filepath|
-      define_method("test_golden_#{filepath}") do
+      define_method("test_golden_#{File.basename(filepath, '.text')}") do
         html = Compiler.compile(File.read(filepath))
         html, err, status = Open3.capture3('prettier --parser html', stdin_data: html)
         if !status.success?
