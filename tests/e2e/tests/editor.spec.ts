@@ -75,7 +75,7 @@ test.describe('Editor', () => {
 
     const preview = getPreview(page)
     const assertSyntaxHighlightClasses = async () => {
-      expect(preview.locator('code[class*="language-python"]')).toBeVisible()
+      await expect(preview.locator('code[class*="language-python"]')).toBeVisible()
     }
 
     // add code text
