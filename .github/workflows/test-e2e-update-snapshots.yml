@@ -68,3 +68,4 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: test-e2e.yml
+          ref: ${{ github.event.pull_request.head.ref }}
