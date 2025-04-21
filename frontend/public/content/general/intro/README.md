@@ -10,7 +10,7 @@ Hey! I’m John, and I’d love to work with your team!
 
 I’m deeply interested in building high-quality software in a collaborative team setting. Whether it's debugging production issues, writing new features, or migrating legacy code, I want to contribute wherever I can add value for the team.
 
-Before tech, I worked in restaurants — always understaffed and high-pressure. It didn’t matter whose table it was, if something needed doing, it was your responsibility to handle it. That same mindset drives my approach to software: ownership, teamwork, and getting things done.
+Before tech, I worked in restaurants — always understaffed and high-pressure. It didn’t matter whose table it was, if something needed doing, it was your responsibility to handle it. That same dset drives my approach to software: ownership, teamwork, and getting things done.
 
 ---
 
