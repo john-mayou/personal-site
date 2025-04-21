@@ -14,7 +14,7 @@ Before tech, I worked in restaurants — always understaffed and high-pressure. 
 
 ---
 
-## Why I Quit My Job to Build
+## Why I Left My Job to Build
 
 A few months ago, I left my job to double down on my learning. I built this site as if it were a real production site, complete with:
 
