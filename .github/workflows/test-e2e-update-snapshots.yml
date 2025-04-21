@@ -64,8 +64,4 @@ jobs:
           message: |
             ### 🎉 Successfully updated and committed Playwright snapshots! 🎉
 
-      - name: Trigger E2E Workflow
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: test-e2e.yml
-          ref: ${{ github.event.pull_request.head.ref }}
+            /rerun-workflow Test E2E

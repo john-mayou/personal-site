@@ -1,0 +1,16 @@
+name: Rerun Actions
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  rerun_actions:
+    name: rerun_actions
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: estroz/rerun-actions@main
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          comment_id: ${{ github.event.comment.id }}
