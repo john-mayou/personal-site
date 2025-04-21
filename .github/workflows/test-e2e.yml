@@ -4,8 +4,7 @@ on:
   pull_request:
     branches: main
     types: [opened, synchronize]
-  repository_dispatch:
-    types: [e2e-snapshot-update]
+  workflow_dispatch:
 
 jobs:
   test:

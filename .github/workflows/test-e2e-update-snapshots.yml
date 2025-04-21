@@ -65,7 +65,6 @@ jobs:
             ### 🎉 Successfully updated and committed Playwright snapshots! 🎉
 
       - name: Trigger E2E Workflow
-        uses: peter-evans/repository-dispatch@v3
+        uses: benc-uk/workflow-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: e2e-snapshot-update
+          workflow: test-e2e.yml
