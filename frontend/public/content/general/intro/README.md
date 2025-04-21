@@ -1,3 +1,7 @@
+## John Mayou
+
+_Software Engineer — Full-Stack | Tests | CI/CD | Observability_
+
 Hey! I’m John, and I’d love to work with your team!
 
 ---
