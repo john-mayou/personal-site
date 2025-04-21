@@ -64,4 +64,4 @@ jobs:
           message: |
             ### 🎉 Successfully updated and committed Playwright snapshots! 🎉
 
-            /rerun-all
+            **To rerun failed workflows, please comment:** /rerun-all
