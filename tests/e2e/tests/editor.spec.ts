@@ -16,7 +16,7 @@ const getEditor = (page: Page) => page.getByTestId('editor-editor-pane').locator
 const getPreview = (page: Page) => page.getByTestId('editor-preview-pane')
 
 async function waitForLoad(page: Page) {
-  await getPreview(page).locator('h2:text("John Mayou")').waitFor() // wait until compiler loads
+  await getPreview(page).locator('h2:text("About Me")').waitFor() // wait until compiler loads
 }
 
 async function assertScreenshot(page: Page, testInfo: TestInfo, name: string) {
@@ -51,21 +51,21 @@ test.describe('Editor', () => {
     const editor = getEditor(page)
     await replaceEditorText(page, editor, '# Hello world')
 
-    // close and reopen Resume.md
+    // close and reopen Intro.md
     const toolbar = getToolbar(page)
-    await toolbar.getByTestId('close-Resume.md').click()
+    await toolbar.getByTestId('close-Intro.md').click()
     await expect(editor).not.toContainText('# Hello world')
     const sidebar = getSidebar(page)
-    await sidebar.getByText('Resume.md').click()
+    await sidebar.getByText('Intro.md').click()
     await expect(editor).toContainText('# Hello world')
 
     // edit text
     await replaceEditorText(page, editor, '# Hello world 2')
 
-    // open another file and switch back to Resume.md
-    await sidebar.getByText('1. Two Sum.md').click()
+    // open another file and switch back to Intro.md
+    await sidebar.getByText('Resume.md').click()
     await expect(editor).not.toContainText('# Hello world 2')
-    await toolbar.getByText('Resume.md').click()
+    await toolbar.getByText('Intro.md').click()
     await expect(editor).toContainText('# Hello world 2')
   })
 
@@ -92,8 +92,8 @@ test.describe('Editor', () => {
     await assertSyntaxHighlightClasses()
 
     // switch tabs and switch back
-    await getSidebar(page).getByText('1. Two Sum.md').click()
-    await getToolbar(page).getByText('Resume.md').click()
+    await getSidebar(page).getByText('Resume.md').click()
+    await getToolbar(page).getByText('Intro.md').click()
     await assertScreenshot(page, testInfo, 'after-tab-switch-and-switch-back')
     await assertSyntaxHighlightClasses()
 
