@@ -24,7 +24,7 @@ _May 2023 - December 2024_
 
 ### Personal Markdown Workspace
 
-- Built a full-stack markdown workspace to organize markdown content in an IDE-like interface equiped with syntax highlighting and HTML preview using a custom Markdown-to-HTML compiler.
+- Built a full-stack markdown workspace to organize markdown content in an IDE-like interface equipped with syntax highlighting and HTML preview using a custom Markdown-to-HTML compiler.
 - Ensured visual and functional correctness by implementing a comprehensive test suite across frontend (Jest, React Testing Library, Playwright) and backend (Go) unit, integration and end-to-end tests.
 - Improved deployment reliability by building a CI/CD pipeline with pre-deploy health checks using GitHub Actions, Docker, and Terraform.
 - Enabled real-time usage observability and uptime monitoring by integrating Prometheus and Grafana.
