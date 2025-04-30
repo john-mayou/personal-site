@@ -1,10 +1,16 @@
 ## John Mayou
 
+---
+
 john@johmayou.com | 612.442.2485
 
 ## Work Experience
 
+---
+
 ### Terrier Technologies - Software Engineer
+
+---
 
 _May 2023 - December 2024_
 
@@ -22,15 +28,21 @@ _May 2023 - December 2024_
 
 ## Projects
 
+---
+
 ### Personal Markdown Workspace
 
-- Built a full-stack markdown workspace to organize markdown content in an IDE-like interface equipped with syntax highlighting and HTML preview using a custom Markdown-to-HTML compiler.
+---
+
+- Built a full-stack markdown workspace to organize markdown content in an IDE-like interface equipped with an HTML preview and syntax highlighting.
 - Ensured visual and functional correctness by implementing a comprehensive test suite across frontend (Jest, React Testing Library, Playwright) and backend (Go) unit, integration and end-to-end tests.
 - Improved deployment reliability by building a CI/CD pipeline with pre-deploy health checks using GitHub Actions, Docker, and Terraform.
 - Enabled real-time usage observability and uptime monitoring by integrating Prometheus and Grafana.
 - Tech: Next.js, React.js, TypeScript, Golang, Ruby
 
 ### Markdown-to-HTML Compilers
+
+---
 
 - Designed and built three different Markdown-to-HTML compilers in various languages featuring lexers (tokenizers), parsers, and code generators to support headings, lists, links, images, inline formatting, and more.
 - Tech (per project):
@@ -40,7 +52,11 @@ _May 2023 - December 2024_
 
 ## Education
 
+---
+
 ### Prime Digital Academy - Full Stack Software Engineering
+
+---
 
 _November 2022 - April 2023_
 
@@ -48,6 +64,8 @@ _November 2022 - April 2023_
 - Tech: React.js, Node.js, Express.js, JavaScript
 
 ### Minnesota State University, Mankato - Computer Science
+
+---
 
 _August 2018 - May 2021_
 

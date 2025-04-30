@@ -5,6 +5,7 @@ import { PiMarkdownLogoLight, PiMarkdownLogoFill } from 'react-icons/pi'
 import CodeMirror from '@uiw/react-codemirror'
 import { markdown as markdownEtx, markdownLanguage } from '@codemirror/lang-markdown'
 import { languages } from '@codemirror/language-data'
+import { marked } from 'marked'
 import {
   useEditorStore,
   File as MarkdownFile,
@@ -12,7 +13,6 @@ import {
 } from '@/components/editorStore'
 import { trackMetric } from '@/utils/metrics'
 import titleize from '@/utils/titleize'
-import Compiler from '@/utils/compiler'
 import styles from './Editor.module.scss'
 import hljs from 'highlight.js/lib/core'
 import python from 'highlight.js/lib/languages/python'
@@ -23,7 +23,7 @@ hljs.registerLanguage('python', python)
 hljs.registerLanguage('plaintext', plaintext)
 
 export function EditorWrapper({ files }: { files: Record<number, MarkdownFile> }) {
-  const { setFiles, setActiveFile, setPreviewShow, setMarkdownCompiler } = useEditorStore()
+  const { setFiles, setActiveFile, setPreviewShow } = useEditorStore()
 
   useEffect(() => {
     setFiles(files)
@@ -33,11 +33,8 @@ export function EditorWrapper({ files }: { files: Record<number, MarkdownFile> }
         break
       }
     }
-    ;(async () => {
-      setMarkdownCompiler(await Compiler.create())
-      requestAnimationFrame(() => setPreviewShow(true))
-    })()
-  }, [files, setFiles, setActiveFile, setPreviewShow, setMarkdownCompiler])
+    requestAnimationFrame(() => setPreviewShow(true))
+  }, [files, setFiles, setActiveFile, setPreviewShow])
 
   return <Editor />
 }
@@ -230,12 +227,9 @@ function EditorPane() {
 }
 
 function PreviewPane() {
-  const { activeContent, previewShow, compileMarkdown } = useEditorStore()
+  const { activeContent, previewShow } = useEditorStore()
   const previewRef = useRef<HTMLDivElement>(null)
-  const compiledHtml = useMemo(
-    () => compileMarkdown(activeContent),
-    [activeContent, compileMarkdown]
-  )
+  const compiledHtml = useMemo(() => marked.parse(activeContent), [activeContent])
 
   useLayoutEffect(() => {
     const node = previewRef.current

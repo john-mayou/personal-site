@@ -1,8 +1,12 @@
 ## [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Given a string `s`, find the length of the longest substring without duplicate characters.
 
 ### Example
+
+---
 
 ```
 Input: s = "abcabcbb"
@@ -11,6 +15,8 @@ Explanation: The answer is "abc", with the length of 3.
 ```
 
 ## Approach
+
+---
 
 The brute-force solution here would be to find every possible substring, determine if it's void of repeating characters and update a `maxLen` variable with the substrings length if so. This solution would result in `O(n^3)` time and `O(n)` space, but we can do better.
 

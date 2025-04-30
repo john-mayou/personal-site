@@ -1,8 +1,12 @@
 ## [94. Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Given the `root` of a binary tree, return the inorder traversal of its nodes' values.
 
 ### Example
+
+---
 
 ```
 Input: root = [1,null,2,3]
@@ -13,6 +17,8 @@ Explanation:
 ![](/content/leetcode/94-binary-tree-inorder-traversal/example-1.png)
 
 ## Approach
+
+---
 
 ```python
 # Definition for a binary tree node.

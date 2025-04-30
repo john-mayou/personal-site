@@ -1,5 +1,7 @@
 ## [146. LRU Cache](https://leetcode.com/problems/lru-cache/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
 
 Implement the `LRUCache` class:
@@ -11,6 +13,8 @@ Implement the `LRUCache` class:
 The functions `get` and `put` must each run in `O(1)` average time complexity.
 
 ### Example
+
+---
 
 ```
 Input
@@ -33,6 +37,8 @@ lRUCache.get(4);    // return 4
 ```
 
 ## Approach
+
+---
 
 ```python
 class Node:

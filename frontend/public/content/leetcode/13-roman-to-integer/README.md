@@ -1,5 +1,7 @@
 ## [13. Roman to Integer](https://leetcode.com/problems/roman-to-integer/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Roman numerals are represented by seven different symbols: `I`, `V`, `X`, `L`, `C`, `D` and `M`.
 
 ```
@@ -21,6 +23,8 @@ Given a roman numeral, convert it to an integer.
 
 ### Example
 
+---
+
 ```
 Input: s = "III"
 Output: 3
@@ -28,6 +32,8 @@ Explanation: III = 3.
 ```
 
 ## Approach
+
+---
 
 This problem can be solved in linear time by using a single pointer that advances one or two steps per iteration. The first thing we look for is if the current index has a larger associated value than the next element (if in bounds).
 

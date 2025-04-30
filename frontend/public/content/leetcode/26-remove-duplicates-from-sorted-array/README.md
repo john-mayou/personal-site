@@ -1,8 +1,12 @@
 ## [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Given an integer array `nums` sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in `nums`.
 
 ### Example
+
+---
 
 ```
 Input: nums = [1,1,2]
@@ -12,6 +16,8 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 ```
 
 ## Approach
+
+---
 
 The brute-force approach for removing duplicates would be to `list(set(nums))`, although that would result in `O(n)` time and `O(n)` space and is not an in place algorithm.
 

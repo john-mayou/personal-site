@@ -1,10 +1,14 @@
 ## [112. Path Sum](https://leetcode.com/problems/path-sum/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Given the `root` of a binary tree and an integer `targetSum`, return `true` if the tree has a root-to-leaf path such that adding up all the values along the path equals `targetSum`.
 
 A leaf is a node with no children.
 
 ### Example
+
+---
 
 ![](/content/leetcode/112-path-sum/example-1.jpg)
 
@@ -15,6 +19,8 @@ Explanation: The root-to-leaf path with the target sum is shown.
 ```
 
 ## Approach
+
+---
 
 ```python
 # Definition for a binary tree node.

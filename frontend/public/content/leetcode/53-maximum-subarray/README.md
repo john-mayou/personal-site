@@ -1,8 +1,12 @@
 ## [53. Maximum Subarray](https://leetcode.com/problems/maximum-subarray/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Given an integer array `nums`, find the subarray with the largest sum, and return its sum.
 
 ### Example
+
+---
 
 ```
 Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
@@ -11,6 +15,8 @@ Explanation: The subarray [4,-1,2,1] has the largest sum 6.
 ```
 
 ## Approach
+
+---
 
 ```python
 class Solution:

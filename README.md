@@ -1,6 +1,6 @@
 # [johnmayou.com](https://www.johnmayou.com)
 
-A full-stack personal site and portfolio workspace to organize my written markdown content on a hosted website. The UI is designed like an IDE (like VSCode), featuring an HTML preview powered by a custom Markdown-to-HTML compiler.
+A full-stack personal site and portfolio workspace to organize my written markdown content on a hosted website. The UI is designed like an IDE (like VSCode) with an HTML preview and syntax highlighting.
 
 ## Highlights
 
