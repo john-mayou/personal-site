@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "format": "prettier --write .",
-    "postinstall": "./scripts/copy-ruby-wasm.sh"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@codemirror/lang-markdown": "^6.3.2",
