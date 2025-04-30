@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import Compiler from '@/utils/compiler'
 
 export type Category = 'general' | 'leetcode'
 
@@ -22,9 +21,6 @@ type EditorState = {
   setActiveContent: (content: string) => void
   saveActiveFile: () => void
   setPreviewShow: (open: boolean) => void
-
-  compileMarkdown: (markdown: string) => string
-  setMarkdownCompiler: (compiler: Compiler) => void
 }
 
 export const useEditorStore = create<EditorState>((set, get) => ({
@@ -66,11 +62,4 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   setPreviewShow: (open) => {
     set({ previewShow: open })
   },
-
-  compileMarkdown: () => '',
-
-  setMarkdownCompiler: (compiler) =>
-    set({
-      compileMarkdown: (md) => compiler.compile(md),
-    }),
 }))

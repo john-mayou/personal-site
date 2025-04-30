@@ -22,7 +22,6 @@ A few months ago, I left my job to double down on my learning. I built this site
 - CI/CD Pipeline: GitHub Actions, Docker, Terraform
 - Metrics and Observability: Prometheus & Grafana
 - Frontend: IDE-style Markdown editor w/ syntax highlighting
-- Markdown Preview: Using a custom Markdown-to-HTML compiler written in Ruby
 
 I’m still growing, but I consistently reflect and ship faster with high quality each iteration. I’d like to bring the same enthusiasm for learning to your engineering team, and make a meaningful impact.
 
