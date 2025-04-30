@@ -1,5 +1,7 @@
 ## [133. Clone Graph](https://leetcode.com/problems/clone-graph/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Given a reference of a node in a connected undirected graph.
 
 Return a deep copy (clone) of the graph.
@@ -15,6 +17,8 @@ class Node {
 
 ### Example
 
+---
+
 ![](/content/leetcode/133-clone-graph/example-1.png)
 
 ```
@@ -28,6 +32,8 @@ Explanation: There are 4 nodes in the graph.
 ```
 
 ## Approach
+
+---
 
 ```python
 """

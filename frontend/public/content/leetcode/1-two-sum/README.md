@@ -1,10 +1,14 @@
 ## [1. Two Sum](https://leetcode.com/problems/two-sum/description/)
 
+---
+
 Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
 
 ### Example
+
+---
 
 ```
 Input: nums = [2,7,11,15], target = 9
@@ -13,6 +17,8 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 ```
 
 ## Approach
+
+---
 
 The brute-force approach for this problem would be to loop over every possible combination of numbers until a solution is found. That solution would result in `O(n^2)` time and `O(1)` space, but we can do better.
 

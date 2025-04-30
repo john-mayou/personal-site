@@ -1,10 +1,14 @@
 ## [79. Word Search](https://leetcode.com/problems/word-search/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Given an `m x n` grid of characters `board` and a string `word`, return `true` if `word` exists in the grid.
 
 The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
 
 ### Example
+
+---
 
 ![](/content/leetcode/79-word-search/example-1.jpg)
 
@@ -14,6 +18,8 @@ Output: true
 ```
 
 ## Approach
+
+---
 
 ```python
 class Solution:

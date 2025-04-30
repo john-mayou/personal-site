@@ -1,8 +1,12 @@
 ## [80. Remove Duplicates from Sorted Array II](https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 Given an integer array `nums` sorted in non-decreasing order, remove some duplicates in-place such that each unique element appears at most twice. The relative order of the elements should be kept the same.
 
 ### Example
+
+---
 
 ```
 Input: nums = [1,1,1,2,2,3]
@@ -12,6 +16,8 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 ```
 
 ## Approach
+
+---
 
 ```python
 class Solution:

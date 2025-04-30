@@ -1,5 +1,7 @@
 ## [21. Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/description/?envType=problem-list-v2&envId=r27zde7r)
 
+---
+
 You are given the heads of two sorted linked lists `list1` and `list2`.
 
 Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
@@ -7,6 +9,8 @@ Merge the two lists into one sorted list. The list should be made by splicing to
 Return the head of the merged linked list.
 
 ### Example
+
+---
 
 ![](/content/leetcode/21-merge-two-sorted-lists/example-1.jpg)
 
@@ -17,7 +21,11 @@ Output: [1,1,2,3,4,4]
 
 ## Approach
 
+---
+
 ### Iterative
+
+---
 
 The easiest way to solve this problem with minimal edge case handling is to start with `dummy` and `curr` (current) pointer that references a single node. We iterate and add a reference to the head of the list with the lowest value to `curr.next` until one list is empty.
 
@@ -50,6 +58,8 @@ class Solution:
 ```
 
 ### Recursive
+
+---
 
 The recursive approach is similar as the base case is where only one list has remaining nodes. With this solution, our subproblem is merging the two list minus the node with the lowest value.
 
