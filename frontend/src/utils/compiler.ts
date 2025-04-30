@@ -17,11 +17,13 @@ export default class Compiler {
       (async () => {
         await loadScript('/wasm/browser.js')
 
+        const response = await fetch('/wasm/ruby.wasm')
         // @ts-expect-error runtime global
-        await window['ruby-wasm-wasi'].main({
-          name: '@ruby/3.4-wasm-wasi',
-          version: '2.7.1',
-        })
+        const _module = await window['ruby-wasm-wasi'].compileWebAssemblyModule(response)
+        // @ts-expect-error runtime global
+        const { vm } = await window['ruby-wasm-wasi'].DefaultRubyVM(_module)
+        // @ts-expect-error runtime global
+        await window['ruby-wasm-wasi'].mainWithRubyVM(vm)
 
         // @ts-expect-error runtime global
         this.vm = window.rubyVM as RubyVM
